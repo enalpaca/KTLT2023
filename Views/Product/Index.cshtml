@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "ListProduct";
+
+}
+
+<h1>@ViewData["Title"]</h1>
+<h2>@ViewBag.ProductList.Length</h2>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<h2>List Product</h2>
+<table>
+    <tr>
+        <th>Mã</th>
+        <th>Tên hàng</th>
+        <th>Hạn dùng</th>
+    </tr>
+    @foreach (var item in ViewBag.ProductList)
+    {
+
+        <tr>
+            <td>@item.productCode</td>
+            <td>@item.productName</td>
+            <td>@item.productExpiredAt</td>
+        </tr>
+        @* <div>@item.Bar</div>*@
+    }
+</table>

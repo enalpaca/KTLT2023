@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Create product";
+
+}
+<h1>@ViewData["Title"]</h1>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<h2>List Product</h2>
+<div>
+    <form method="post" action="Create">
+        <label for="productCode">Mã:</label><br>
+        <input type="text" id="productCode" name="productCode" value="A001"><br>
+        <label for="productName">Tên hàng: </label><br>
+        <input type="text" id="productName" name="productName" value="Sữa"><br>
+        <label for="productExpiredAt">Mã:</label><br>
+        <input type="text" id="productExpiredAt" name="productExpiredAt" value="01/05/2000"><br><br>
+        <input type="submit" value="Create">
+    </form>
+</div>
