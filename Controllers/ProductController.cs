@@ -1,13 +1,9 @@
 ﻿using DoAn1.Models;
-using DoAn1.IOFile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DoAn1.Controllers
 {
@@ -27,8 +23,11 @@ namespace DoAn1.Controllers
             return View();
         }
 
-        public IActionResult EditProduct()
+        public IActionResult EditProduct(string productCode)
         {
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            Product product = ReadListProduct.Find(x => x.productCode == productCode);
+            ViewBag.product = product;
             return View();
         }
 
@@ -50,11 +49,55 @@ namespace DoAn1.Controllers
         {
             try
             {
-                Product smodel = new Product();
-                smodel.productCode = collection["productCode"];
-                smodel.productName = collection["productName"];
-                smodel.productExpiredAt = collection["productExpiredAt"];
-                IOFile.IOFile.SaveProduct(smodel);
+                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+                Product productModel = new Product();
+                productModel.productCode = collection["productCode"];
+                productModel.productName = collection["productName"];
+                productModel.productExpiredAt = collection["productExpiredAt"];
+                productModel.productCompany = collection["productCompany"];
+                productModel.productProductionDate = collection["productProductionDate"];
+                productModel.productCategory = collection["productCategory"];
+                productModel.productPrice = collection["productProductionDate"];
+                productModel.productQuantity = collection["productQuantity"];
+
+                ReadListProduct.Add(productModel);
+                IOFile.IOFile.SaveProducts(ReadListProduct);
+                return Redirect("/Product");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public ActionResult Edit_patch(string productCode, IFormCollection collection)
+        {
+            try
+            {
+                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+                Product productModel = new Product();
+                productModel.productCode = collection["productCode"];
+                productModel.productName = collection["productName"];
+                productModel.productExpiredAt = collection["productExpiredAt"];
+                productModel.productCompany = collection["productCompany"];
+                productModel.productProductionDate = collection["productProductionDate"];
+                productModel.productCategory = collection["productCategory"];
+                productModel.productPrice = collection["productProductionDate"];
+                productModel.productQuantity = collection["productQuantity"];
+
+                int productIndex = ReadListProduct.FindIndex(x => x.productCode == collection["productCode"]);
+
+                if (productIndex < 0)
+                {
+                    // Khong co product
+                    return Redirect("/Product");
+                }
+                ReadListProduct.RemoveAt(productIndex);
+                ReadListProduct.Insert(productIndex, productModel);
+
+                IOFile.IOFile.SaveProducts(ReadListProduct);
                 return Redirect("/Product");
             }
             catch

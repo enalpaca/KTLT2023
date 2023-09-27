@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "ListCategory";
+
+}
+
+<h1>@ViewData["Title"]</h1>
+<h2>@ViewBag.CategoryList.Length</h2> // tra ve so luong product da nhap vao
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<h2>List Category</h2>
+<table>
+    <tr>
+        <th>Mã loại hàng</th>
+        <th>Tên loại hàng</th>
+    </tr>
+    @foreach (var item in ViewBag.CategoryList)
+    {
+
+        <tr>
+            <td>@item.categoryCode</td>
+            <td>@item.categoryName</td>
+        </tr>
+        @* <div>@item.Bar</div>*@
+    }
+</table>

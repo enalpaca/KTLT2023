@@ -4,7 +4,7 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<h2>@ViewBag.ProductList.Length</h2>
+<h2>@ViewBag.ProductList.Length</h2> // tra ve so luong product da nhap vao 
 <style>
     table {
         font-family: arial, sans-serif;
@@ -21,6 +21,47 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
+
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
 </style>
 <h2>List Product</h2>
 <table>
@@ -28,15 +69,28 @@
         <th>Mã</th>
         <th>Tên hàng</th>
         <th>Hạn dùng</th>
+        <th>Công ty sản xuất</th>
+        <th>Ngày sản xuất</th>
+        <th>Loại hàng</th>
+        <th>Giá</th>
+        <th>Số lượng hàng còn lại trong kho</th>
     </tr>
     @foreach (var item in ViewBag.ProductList)
     {
 
-        <tr>
-            <td>@item.productCode</td>
-            <td>@item.productName</td>
-            <td>@item.productExpiredAt</td>
-        </tr>
+<tr>
+    <td>@item.productCode</td>
+    <td>@item.productName</td>
+    <td>@item.productExpiredAt</td>
+    <td>@item.productCompany</td>
+    <td>@item.productProductionDate</td>
+    <td>@item.productCategory</td>
+    <td>@item.productPrice</td>
+    <td>@item.productQuantity</td>
+    <td><a  href="/Product/EditProduct?productCode=@item.productCode"><button class="EditProduct">Chỉnh sửa</button></a></td>
+    <td><button class="DeletedProduct">Xóa</button></td>
+</tr>
         @* <div>@item.Bar</div>*@
+
     }
 </table>

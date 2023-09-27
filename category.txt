@@ -1,0 +1,2 @@
+{"categoryCode":"abc111","categoryName":"gia d\u1EE5ng"}
+{"categoryCode":"fdgfd","categoryName":"fdgfd"}

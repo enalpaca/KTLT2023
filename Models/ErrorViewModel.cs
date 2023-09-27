@@ -1,4 +1,3 @@
-using System;
 
 namespace DoAn1.Models
 {

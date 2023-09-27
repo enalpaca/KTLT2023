@@ -1,6 +1,100 @@
 ﻿@{
     ViewData["Title"] = "Edit product";
+    Product product = ViewBag.product;
 }
 <h1>@ViewData["Title"]</h1>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    .dropbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+</style>
 <p>Đây là trang quản lý mặt hàng</p>
+@if (product == null)
+{
+    <p>Mặt hàng không tồn taị </p>
+}
+else
+{
+    <form method="post" action="Edit">
+        <label for="productCode">Mã:</label><br>
+        <input type="text" id="productCode" name="productCode" value="@product.productCode" ><br>
+
+        <label for="productName">Tên hàng: </label><br>
+        <input type="text" id="productName" name="productName" value="@product.productName"><br>
+
+        <label for="productExpiredAt">Hạn dùng:</label><br>
+        <input type="text" id="productExpiredAt" name="productExpiredAt" value="@product.productExpiredAt"><br>
+
+        <label for="productCompany">Công ty sản xuất:</label><br>
+        <input type="text" id="productCompany" name="productCompany" value="@product.productCompany"><br>
+
+        <label for="productProductionDate">Ngày sản xuất:</label><br>
+        <input type="text" id="productProductionDate" name="productProductionDate" value="@product.productProductionDate"><br>
+
+        <label for="productCategory">Loại hàng:</label><br>
+        <input type="text" id="productCategory" name="productCategory" value="@product.productCategory"><br>
+
+        <label for="productPrice">Giá:</label><br>
+        <input type="text" id="productPrice" name="productPrice" value="@product.productPrice"><br>
+
+        <label for="productQuantity"> Số lượng mặt hàng</label><br>
+        <input type="text" id="productQuantity" name="productQuantity" value="@product.productQuantity"/><br><br>
+
+
+        <input type="submit" value="Edit">
+    </form>
+}
+
