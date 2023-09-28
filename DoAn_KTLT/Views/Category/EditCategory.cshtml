@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Sửa loại hàng";
+    Category category = ViewBag.category;
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (category == null)
+{
+    <p>Loại hàng không tồn taị </p>
+}
+else
+{
+    <form class="row" method="post" action="EditCategory?categoryCode=@category.categoryCode">
+        <div class="col-md-6">
+            <label for="categoryName" class="form-label">Mã:</label>
+            <input type="text" class="form-control" value="@category.categoryCode" disabled>
+        </div>
+        <div class="col-md-6">
+            <label for="categoryName" class="form-label">Tên loại hàng:</label>
+            <input type="text" id="categoryName" name="categoryName" class="form-control" value="@category.categoryName">
+        </div>
+
+        <div class="mt-3 col-md-12">
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </div>
+    </form>
+}
+

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoAn1", "DoAn1.csproj", "{93EE16F2-644C-49A3-B3F5-092DD824B753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoAn_KTLT", "DoAn_KTLT\DoAn_KTLT.csproj", "{4766B608-4599-4F9B-AE6E-B19A172AF8B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93EE16F2-644C-49A3-B3F5-092DD824B753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93EE16F2-644C-49A3-B3F5-092DD824B753}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93EE16F2-644C-49A3-B3F5-092DD824B753}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93EE16F2-644C-49A3-B3F5-092DD824B753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4766B608-4599-4F9B-AE6E-B19A172AF8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4766B608-4599-4F9B-AE6E-B19A172AF8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4766B608-4599-4F9B-AE6E-B19A172AF8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4766B608-4599-4F9B-AE6E-B19A172AF8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
