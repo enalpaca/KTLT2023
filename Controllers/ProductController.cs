@@ -16,9 +16,14 @@ namespace DoAn1.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchText)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            if (searchText != null && searchText != "")
+            {
+                ReadListProduct = ReadListProduct.FindAll(p => p.productCode.Contains(searchText) || p.productName.Contains(searchText) || p.productCompany.Contains(searchText));
+            }
+
             ViewBag.ProductList = ReadListProduct.ToArray();
             return View();
         }
@@ -107,6 +112,13 @@ namespace DoAn1.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        [ActionName("SearchProduct")]
+        public ActionResult SearchProduct(string searchText)
+        {
+            return Redirect($"/Product?searchText={searchText}");
         }
     }
 }

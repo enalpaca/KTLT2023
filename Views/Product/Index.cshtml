@@ -2,7 +2,12 @@
     ViewData["Title"] = "Danh sách mặt hàng";
 }
 
+
 <h1>@ViewData["Title"]</h1>
+<form method="post" action="Product/SearchProduct">
+    <input type="text" id="searchText" name="searchText" placeholder="Tìm mã hàng, mặt hàng ...">
+    <input class="my-btn" type="submit" value="Tìm">
+</form>
 <h2>Tổng cộng: @ViewBag.ProductList.Length</h2>
 <style>
     table {

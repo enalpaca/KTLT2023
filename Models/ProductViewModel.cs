@@ -1,4 +1,6 @@
-﻿namespace DoAn1.Models
+﻿using DoAn1.IOFile;
+
+namespace DoAn1.Models
 {
     public class Product
     {
@@ -11,13 +13,9 @@
         public string productPrice { get; set; }
         public string productQuantity { get; set; }
 
+        public Product()
+        {
+            productCode = Utils.GenerateString();
+        }
     }
-
-   
-    public class ProductViewModel
-    {
-        public Product[] productList = {};
-    }
-
-
 }
