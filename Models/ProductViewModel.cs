@@ -1,7 +1,9 @@
 ﻿using DoAn1.IOFile;
+using System;
 
 namespace DoAn1.Models
 {
+    [Serializable]
     public class Product
     {
         public string productCode { get; set; }

@@ -1,6 +1,0 @@
-{"productCode":"gh","productName":"rffff","productExpiredAt":"2023-09-15","productCompany":"dfgggg","productProductionDate":"2023-09-03","productCategory":"mai trời mưa","productPrice":"4333","productQuantity":"4"}
-{"productCode":"A003","productName":"sản phẩm chưa biết tên","productExpiredAt":"2023-09-01","productCompany":"abc","productProductionDate":"2023-09-17","productCategory":"mai trời mưa","productPrice":"333333333","productQuantity":"33"}
-{"productCode":"A002","productName":"A002","productExpiredAt":"2023-09-03","productCompany":"33sdfsdfsđf","productProductionDate":"2023-09-02","productCategory":"mai trời mưa333","productPrice":"23333","productQuantity":"9333"}
-{"productCode":"A004","productName":"sản phẩm chưa biết tên","productExpiredAt":"2023-09-02","productCompany":"abc","productProductionDate":"2023-09-03","productCategory":"mai trời mưa","productPrice":"3","productQuantity":"3"}
-{"productCode":null,"productName":"3","productExpiredAt":"2023-09-02","productCompany":"3","productProductionDate":"2023-09-03","productCategory":"3","productPrice":"3","productQuantity":"3"}
-{"productCode":"YSWYHP","productName":"sản phẩm chưa biết tên","productExpiredAt":"2023-09-02","productCompany":"abc","productProductionDate":"2023-09-03","productCategory":"mai trời mưa","productPrice":"333","productQuantity":"33"}
