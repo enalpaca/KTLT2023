@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
+
 
 
 namespace DoAn1.Controllers
@@ -18,10 +20,22 @@ namespace DoAn1.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(string searchText)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+            if (searchText != null && searchText != "")
+            {
+                ReadListCategory = ReadListCategory.FindAll(p => p.categoryCode.Contains(searchText) || p.categoryName.Contains(searchText) );
+            }
             ViewBag.CategoryList = ReadListCategory.ToArray();
+            return View();
+        }
+
+        public IActionResult EditCategory(string categoryCode)
+        {
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+            Category category = ReadListCategory.Find(x => x.categoryCode == categoryCode);
+            ViewBag.category = category;
             return View();
         }
 
@@ -37,23 +51,84 @@ namespace DoAn1.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpPost]
-        [ActionName("Create")]
 
-        public ActionResult Create_post(IFormCollection collection)
+        [HttpPost]
+        [ActionName("CreateCategory")]
+
+        public ActionResult CreateCategory(Category newCategory)
         {
             try
             {
-                Category categoryModel = new Category();
-                categoryModel.categoryCode = collection["categoryCode"];
-                categoryModel.categoryName = collection["categoryName"];
-                IOFile.IOFile.SaveCategory(categoryModel);
+                List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+
+                ReadListCategory.Add(newCategory);
+                IOFile.IOFile.SaveCategories(ReadListCategory);
                 return Redirect("/Category");
             }
             catch
             {
                 return View();
             }
+        }
+
+
+        [HttpPost]
+        [ActionName("EditCategory")]
+
+        public ActionResult EditCategory(Category updatedCategory)
+        {
+            try
+            {
+                List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+
+                int categoryIndex = ReadListCategory.FindIndex(x => x.categoryCode == updatedCategory.categoryCode);
+
+                if (categoryIndex >= 0)
+                {
+                    ReadListCategory.RemoveAt(categoryIndex);
+                    ReadListCategory.Insert(categoryIndex, updatedCategory);
+                    IOFile.IOFile.SaveCategories(ReadListCategory);
+                }
+
+                return Redirect("/Category");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ActionName("DeleteCategory")]
+
+        public ActionResult DeleteCategory(string categoryCode)
+        {
+            try
+            {
+                List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+                int categoryIndex = ReadListCategory.FindIndex(x => x.categoryCode == categoryCode);
+
+                if (categoryIndex >= 0)
+                {
+                    ReadListCategory.RemoveAt(categoryIndex);
+                    IOFile.IOFile.SaveCategories(ReadListCategory);
+                }
+
+                return Redirect("/Category");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ActionName("SearchCategory")]
+
+        public ActionResult SearchCategory(string searchText)
+        {
+            var encodedLocationName = WebUtility.UrlEncode(searchText);
+            return Redirect($"/Category?searchText={encodedLocationName}");
         }
     }
 }

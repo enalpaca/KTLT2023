@@ -10,6 +10,7 @@ namespace DoAn1.IOFile
 {
     public class IOFile
     {
+        // https://laptrinhvb.net/bai-viet/devexpress/---Csharp----Huong-dan-luu-List-Object-thanh-tap-tin-file-nhi-phan-Binary/34e193c8f4135907.html
         public static void Save<T>(string fileName, List<T> list)
         {
             using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
@@ -93,17 +94,15 @@ namespace DoAn1.IOFile
             fs.Close();
 
         }
-        public static List<Category> ReadCategory()
+        public static void SaveCategories(List<Category> categories)
         {
 
-            List<Category> readCategoryList = new List<Category>();
-            var lines = File.ReadLines("category.txt");
-            foreach (var line in lines)
-            {
-                Category category = JsonSerializer.Deserialize<Category>(line, jsonSerializerOptions);
-                readCategoryList.Add(category);
-            }
-            return readCategoryList;
+            Save<Category>("category.bin", categories);
+
+        }
+        public static List<Category> ReadCategory()
+        {
+            return Load<Category>("category.bin");
         }
 
         public static void SaveInvoice(Invoice invoice)

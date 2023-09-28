@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 
 namespace DoAn1.Controllers
 {
@@ -118,7 +119,8 @@ namespace DoAn1.Controllers
         [ActionName("SearchProduct")]
         public ActionResult SearchProduct(string searchText)
         {
-            return Redirect($"/Product?searchText={searchText}");
+            var encodedLocationName = WebUtility.UrlEncode(searchText);
+            return Redirect($"/Product?searchText={encodedLocationName}");
         }
     }
 }
