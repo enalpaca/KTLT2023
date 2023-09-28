@@ -44,23 +44,14 @@ namespace DoAn1.Controllers
         }
 
         [HttpPost]
-        [ActionName("Create")]
-        public ActionResult Create_post(IFormCollection collection)
+        [ActionName("CreateProduct")]
+        public ActionResult CreateProduct(Product newProduct)
         {
             try
             {
                 List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-                Product productModel = new Product();
-                productModel.productCode = collection["productCode"];
-                productModel.productName = collection["productName"];
-                productModel.productExpiredAt = collection["productExpiredAt"];
-                productModel.productCompany = collection["productCompany"];
-                productModel.productProductionDate = collection["productProductionDate"];
-                productModel.productCategory = collection["productCategory"];
-                productModel.productPrice = collection["productProductionDate"];
-                productModel.productQuantity = collection["productQuantity"];
 
-                ReadListProduct.Add(productModel);
+                ReadListProduct.Add(newProduct);
                 IOFile.IOFile.SaveProducts(ReadListProduct);
                 return Redirect("/Product");
             }
@@ -71,33 +62,45 @@ namespace DoAn1.Controllers
         }
 
         [HttpPost]
-        [ActionName("Edit")]
-        public ActionResult Edit_patch(string productCode, IFormCollection collection)
+        [ActionName("EditProduct")]
+        public ActionResult EditProduct(Product updatedProduct)
         {
             try
             {
                 List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-                Product productModel = new Product();
-                productModel.productCode = collection["productCode"];
-                productModel.productName = collection["productName"];
-                productModel.productExpiredAt = collection["productExpiredAt"];
-                productModel.productCompany = collection["productCompany"];
-                productModel.productProductionDate = collection["productProductionDate"];
-                productModel.productCategory = collection["productCategory"];
-                productModel.productPrice = collection["productProductionDate"];
-                productModel.productQuantity = collection["productQuantity"];
 
-                int productIndex = ReadListProduct.FindIndex(x => x.productCode == collection["productCode"]);
+                int productIndex = ReadListProduct.FindIndex(x => x.productCode == updatedProduct.productCode);
 
-                if (productIndex < 0)
+                if (productIndex >= 0)
                 {
-                    // Khong co product
-                    return Redirect("/Product");
+                    ReadListProduct.RemoveAt(productIndex);
+                    ReadListProduct.Insert(productIndex, updatedProduct);
+                    IOFile.IOFile.SaveProducts(ReadListProduct);
                 }
-                ReadListProduct.RemoveAt(productIndex);
-                ReadListProduct.Insert(productIndex, productModel);
 
-                IOFile.IOFile.SaveProducts(ReadListProduct);
+                return Redirect("/Product");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ActionName("DeleteProduct")]
+        public ActionResult DeleteProduct(string productCode)
+        {
+            try
+            {
+                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+                int productIndex = ReadListProduct.FindIndex(x => x.productCode == productCode);
+
+                if (productIndex >= 0)
+                {
+                    ReadListProduct.RemoveAt(productIndex);
+                    IOFile.IOFile.SaveProducts(ReadListProduct);
+                }
+
                 return Redirect("/Product");
             }
             catch

@@ -1,6 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Create product";
-
+    ViewData["Title"] = "Thêm mặt hàng";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -21,9 +20,9 @@
         background-color: #dddddd;
     }
 </style>
-<h2>List Product</h2>
+
 <div>
-    <form method="post" action="Create">
+    <form method="post" action="CreateProduct">
         <label for="productCode">Mã:</label><br>
         <input type="text" id="productCode" name="productCode" ><br>
 
@@ -31,24 +30,24 @@
         <input type="text" id="productName" name="productName"><br>
 
         <label for="productExpiredAt">Hạn dùng:</label><br>
-        <input type="text" id="productExpiredAt" name="productExpiredAt"><br>
+        <input type="date" id="productExpiredAt" name="productExpiredAt"><br>
 
         <label for="productCompany">Công ty sản xuất:</label><br>
         <input type="text" id="productCompany" name="productCompany"><br>
 
         <label for="productProductionDate">Ngày sản xuất:</label><br>
-        <input type="text" id="productProductionDate" name="productProductionDate"><br>
+        <input type="date" id="productProductionDate" name="productProductionDate"><br>
 
         <label for="productCategory">Loại hàng:</label><br>
         <input type="text" id="productCategory" name="productCategory"><br>
 
         <label for="productPrice">Giá:</label><br>
-        <input type="text" id="productPrice" name="productPrice"><br>
+        <input type="number" id="productPrice" name="productPrice"><br>
         
         <label for="productQuantity"> Số lượng mặt hàng</label><br>
-        <input type="text" id="productQuantity" name="productQuantity" /><br><br>
+        <input type="number" id="productQuantity" name="productQuantity" /><br><br>
 
 
-        <input type="submit" value="Create">
+        <input type="submit" value="Thêm">
     </form>
 </div>

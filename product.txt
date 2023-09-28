@@ -1,3 +1,5 @@
-{"productCode":"A001","productName":"abc","productExpiredAt":"abc","productCompany":"abc","productProductionDate":"abc","productCategory":"abc","productPrice":"abc","productQuantity":"4"}
-{"productCode":"A001","productName":"A001","productExpiredAt":"A001","productCompany":"A001","productProductionDate":"A001","productCategory":"A001","productPrice":"A001","productQuantity":"4"}
-{"productCode":"fdgsdfg","productName":"1111","productExpiredAt":"222","productCompany":"333","productProductionDate":"444","productCategory":"5555","productPrice":"444","productQuantity":"555234"}
+{"productCode":"A001","productName":"sản phẩm chưa biết tên","productExpiredAt":"2023-09-26","productCompany":"abc","productProductionDate":"2023-09-06","productCategory":"rr","productPrice":"4345345","productQuantity":"4345345"}
+{"productCode":"A002","productName":"A002","productExpiredAt":"2023-09-02","productCompany":"A002","productProductionDate":"2023-09-03","productCategory":"A002","productPrice":"2222","productQuantity":"4"}
+{"productCode":"fdgsdfg","productName":"fff","productExpiredAt":"2023-09-08","productCompany":"abcrrr","productProductionDate":"2023-10-01","productCategory":"mai trời mưa","productPrice":"44","productQuantity":"444"}
+{"productCode":"gh","productName":"g","productExpiredAt":"g","productCompany":"g","productProductionDate":"g","productCategory":"g","productPrice":"g","productQuantity":"g"}
+{"productCode":"A003","productName":"A003","productExpiredAt":"A003","productCompany":"abc","productProductionDate":"g","productCategory":"mai trời mưa","productPrice":"g","productQuantity":"9"}

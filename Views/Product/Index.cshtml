@@ -1,10 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "ListProduct";
-
+    ViewData["Title"] = "Danh sách mặt hàng";
 }
 
 <h1>@ViewData["Title"]</h1>
-<h2>@ViewBag.ProductList.Length</h2> // tra ve so luong product da nhap vao 
+<h2>Tổng cộng: @ViewBag.ProductList.Length</h2>
 <style>
     table {
         font-family: arial, sans-serif;
@@ -62,8 +61,11 @@
     .dropdown:hover .dropbtn {
         background-color: #3e8e41;
     }
+
 </style>
-<h2>List Product</h2>
+
+<a href="/Product/CreateProduct"><button class="my-btn">Thêm mới mặt hàng</button></a>
+
 <table>
     <tr>
         <th>Mã</th>
@@ -73,24 +75,27 @@
         <th>Ngày sản xuất</th>
         <th>Loại hàng</th>
         <th>Giá</th>
-        <th>Số lượng hàng còn lại trong kho</th>
+        <th>Số lượng tồn kho</th>
+        <th>Hành động</th>
     </tr>
     @foreach (var item in ViewBag.ProductList)
     {
+        <tr>
+            <td>@item.productCode</td>
+            <td>@item.productName</td>
+            <td>@item.productExpiredAt</td>
+            <td>@item.productCompany</td>
+            <td>@item.productProductionDate</td>
+            <td>@item.productCategory</td>
+            <td>@item.productPrice</td>
+            <td>@item.productQuantity</td>
+            <td>
+                <a href="/Product/EditProduct?productCode=@item.productCode"><button class="my-btn">Sửa</button></a>
 
-<tr>
-    <td>@item.productCode</td>
-    <td>@item.productName</td>
-    <td>@item.productExpiredAt</td>
-    <td>@item.productCompany</td>
-    <td>@item.productProductionDate</td>
-    <td>@item.productCategory</td>
-    <td>@item.productPrice</td>
-    <td>@item.productQuantity</td>
-    <td><a  href="/Product/EditProduct?productCode=@item.productCode"><button class="EditProduct">Chỉnh sửa</button></a></td>
-    <td><button class="DeletedProduct">Xóa</button></td>
-</tr>
-        @* <div>@item.Bar</div>*@
-
+                <form method="post" action="Product/DeleteProduct?productCode=@item.productCode">
+                    <input class="my-btn" type="submit" value="Xóa">
+                </form>
+            </td>
+        </tr>
     }
 </table>

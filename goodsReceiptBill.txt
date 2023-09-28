@@ -1,8 +1,0 @@
-{"goodsReceiptBillCode":"bxcb","goodsReceiptBillCreateDate":"cxvbxcvb"}
-{"goodsReceiptBillCode":"bxcb","goodsReceiptBillCreateDate":"cxvbxcvb"}
-{"goodsReceiptBillCode":"bxcb","goodsReceiptBillCreateDate":"cxvbxcvb"}
-{"goodsReceiptBillCode":"cvzvz","goodsReceiptBillCreateDate":"zvzxcv"}
-{"goodsReceiptBillCode":"abc","goodsReceiptBillCreateDate":"def"}
-{"goodsReceiptBillCode":"f\u0111sfa","goodsReceiptBillCreateDate":"\u0111\u1EA7"}
-{"goodsReceiptBillCode":"cvfgfdzsg","goodsReceiptBillCreateDate":"fdgdsfg"}
-{"goodsReceiptBillCode":"","goodsReceiptBillCreateDate":""}
