@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Sửa hóa đơn bán hàng";
+    Invoice invoice = ViewBag.invoice;
+    Category[] categories = ViewBag.CategoryList;
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (invoice == null)
+{
+    <p>Hóa đơn không tồn taị </p>
+}
+else
+{
+    <form class="row" method="post" action="EditCategory?invoiceCode=@invoice.invoiceCode">
+        <div class="col-md-6">
+            <label for="invoiceCode" class="form-label">Mã hóa đơn:</label>
+            <input type="text" class="form-control" value="@invoice.invoiceCode" disabled>
+        </div>
+        <div class="col-md-6">
+            <label for="invoiceCustomerName" class="form-label">Tên khách hàng:</label>
+            <input type="text" id="invoiceCustomerName" name="invoiceCustomerName" class="form-control" value="@invoice.invoiceCustomerName">
+        </div>
+
+        <div class="col-md-6">
+            <label for="invoiceCustomerAddress">Địa chỉ:</label>
+            <input type="text" id="invoiceCustomerAddress" name="invoiceCustomerAddress" class="form-control" value="@invoice.invoiceCustomerAddress">
+        </div>
+        <div class="col-md-6">
+            <label for="invoiceCusstomerPhone">Số điện thoại:</label>
+            <input type="number" id="invoiceCusstomerPhone" name="invoiceCusstomerPhone" class="form-control" value="@invoice.invoiceCustomerPhone">
+        </div>
+@*         <div class="col-md-6">
+            <label for="productCategory">Loại hàng:</label>
+            <select id="productCategory" name="productCategory" class="form-control" asp-for="@product.productCategory">
+                <option value="volvo">Vui lòng chọn ...</option>
+                @foreach (var cat in categories)
+                {
+                    <option value="@cat.categoryCode">@cat.categoryName</option>
+                }
+            </select>
+        </div> *@
+        <div class="col-md-6">
+            <label for="invoiceProductname">Tên hàng: </label>
+            <input type="text" id="invoiceProductname" name="invoiceProductname" class="form-control" value="@invoice.invoiceProductname">
+        </div>
+        <div class="col-md-6">
+            <label for="invoiceProductPrice">Giá:</label>
+            <input type="number" id="invoiceProductPrice" name="invoiceProductPrice" class="form-control" value="@invoice.invoiceProductPrice">
+        </div>
+        <div class="col-md-6">
+            <label for="invoiceProductQuantity">Số lượng:</label>
+            <input type="number" id="invoiceProductQuantity" name="invoiceProductQuantity" class="form-control" value="@invoice.invoiceProductQuantity">
+        </div>
+        <div class="col-md-6">
+            <label for="invoiceCreateDate" class="form-label">Ngày tạo hóa đơn:</label>
+            <input type="date" id="invoiceCreateDate" name="invoiceCreateDate" class="form-control" value="@invoice.invoiceCreateDate">
+        </div>
+        <div class="mt-3 col-md-12">
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </div>
+    </form>
+}
+

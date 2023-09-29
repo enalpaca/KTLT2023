@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Danh sách hóa đơn nhập hàng";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" action="GoodsReceiptBill/SearchGoodsReceiptBill">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchText" name="searchText" placeholder="Tìm mã hóa đơn, mặt hàng ..." aria-label="Tìm mã hóa đơn, mặt hàng ..." aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm</button>
+    </div>
+</form>
+
+<h2>Tổng cộng: @ViewBag.GoodsReceiptBillList.Length</h2>
+
+<div class="mb-3">
+    <form style="display: inline" action="/GoodsReceiptBill/CreateGoodsReceiptBill" method="get">
+        <button class="btn btn-primary">Tạo hóa đơn nhập hàng mới</button>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Mã</th>
+            <th>Tên hàng</th>
+            <th>Số lượng</th>
+            <th>Đơn vị tính</th>
+            <th>Giá</th>
+            <th>Công ty</th>
+            <th>Người giao hàng</th>
+            <th>Ngày tạo hóa đơn</th>
+            <th>Hành động</th>
+        </tr>
+        @foreach (var item in ViewBag.GoodsReceiptBillList)
+        {
+            <tr>
+                <td>@item.goodsReceiptBillCode</td>
+                <td>@item.goodsReceiptBillProductName</td>
+                <td>@item.goodsReceiptBillProductQuantity</td>
+                <td>@item.goodsReceiptProductUnit</td>
+                <td>@item.goodsReceiptBillProductPrice</td>
+                <td>@item.goodsReceiptBillProductCompany</td>
+                <td>@item.goodsReceiptBillProductDeliver</td>
+                <td>@item.goodsReceiptBillCreateDate</td>
+                <td>
+
+                    <div class="btn-group" role="group" aria-label="First group">
+                        <a href="/GoodsReceiptBill/EditGoodsReceiptBill?goodsReceiptBillCode=@item.goodsReceiptBillCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                    </div>
+
+                    <div class="btn-group" role="group" aria-label="Third group">
+                        <form method="post" action="GoodsReceiptBill/DeleteGoodsReceiptBill?goodsReceiptBillCode=@item.goodsReceiptBillCode">
+                            <input class="btn btn-danger" type="submit" value="Xóa">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

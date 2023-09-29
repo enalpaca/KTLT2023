@@ -51,5 +51,23 @@ namespace DoAn_KTLT.IOFile
         {
             return Load<Category>("category.json");
         }
+
+        public static void SaveInvoices(List<Invoice> invoices)
+        {
+            Save("invoice.json", invoices);
+        }
+        public static List<Invoice> ReadInvoice()
+        {
+            return Load<Invoice>("invoice.json");
+        }
+
+        public static void SaveGoodsReceiptBills(List<GoodsReceiptBill> goodsReceiptBills)
+        {
+            Save("goodsReceiptBill.json", goodsReceiptBills);
+        }
+        public static List<GoodsReceiptBill> ReadGoodsReceiptBill()
+        {
+            return Load<GoodsReceiptBill>("goodsReceiptBill.json");
+        }
     }
 }
