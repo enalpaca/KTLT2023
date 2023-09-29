@@ -1,10 +1,6 @@
 ﻿using DoAn_KTLT.IOFile;
 using DoAn_KTLT.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 
@@ -26,7 +22,15 @@ namespace DoAn_KTLT.Controllers
             {
                 ReadListProduct = ReadListProduct.FindAll(p => Utils.StringLike(p.productName, searchText) || Utils.StringLike(p.productCompany, searchText));
             }
-
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+            foreach (Product p in ReadListProduct)
+            {
+                Category? category = ReadListCategory.Find(cat => cat.categoryCode == p.productCategory);
+                if (category != null)
+                {
+                    p.productCategoryName = category.categoryName;
+                }
+            }
             ViewBag.ProductList = ReadListProduct.ToArray();
             return View();
         }
@@ -34,13 +38,18 @@ namespace DoAn_KTLT.Controllers
         public IActionResult EditProduct(string productCode)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-            Product product = ReadListProduct.Find(x => x.productCode == productCode);
+            Product? product = ReadListProduct.Find(x => x.productCode == productCode);
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+
+            ViewBag.CategoryList = ReadListCategory.ToArray();
             ViewBag.product = product;
             return View();
         }
 
         public IActionResult CreateProduct()
         {
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+            ViewBag.CategoryList = ReadListCategory.ToArray();
             return View();
         }
 

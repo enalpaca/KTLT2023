@@ -34,7 +34,7 @@ namespace DoAn_KTLT.Controllers
         public IActionResult EditCategory(string categoryCode)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-            Category category = ReadListCategory.Find(x => x.categoryCode == categoryCode);
+            Category? category = ReadListCategory.Find(x => x.categoryCode == categoryCode);
             ViewBag.category = category;
             return View();
         }

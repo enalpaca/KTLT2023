@@ -1,66 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Sửa mặt hàng";
     Product product = ViewBag.product;
+    Category[] categories = ViewBag.CategoryList;
 }
 <h1>@ViewData["Title"]</h1>
-<style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    .dropbtn {
-        background-color: #04AA6D;
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-    }
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-            .dropdown-content a:hover {
-                background-color: #ddd;
-            }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-        background-color: #3e8e41;
-    }
-</style>
 
 @if (product == null)
 {
@@ -91,7 +34,13 @@ else
         </div>
         <div class="col-md-6">
             <label for="productCategory">Loại hàng:</label>
-            <input type="text" id="productCategory" name="productCategory" class="form-control" value="@product.productCategory">
+            <select id="productCategory" name="productCategory" class="form-control" asp-for="@product.productCategory">
+                <option value="volvo">Vui lòng chọn ...</option>
+                @foreach (var cat in categories)
+                {
+                    <option value="@cat.categoryCode">@cat.categoryName</option>
+                }
+            </select>
         </div>
         <div class="col-md-6">
             <label for="productPrice">Giá:</label>

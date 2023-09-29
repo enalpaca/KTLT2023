@@ -1,8 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Thêm mặt hàng";
+    Category[] categories = ViewBag.CategoryList;
 }
 <h1>@ViewData["Title"]</h1>
-
 
 @*https://getbootstrap.com/docs/5.0/forms/layout/*@
 <form class="row" method="post" action="CreateProduct">
@@ -26,8 +26,11 @@
     <div class="col-md-6">
         <label for="productCategory">Loại hàng:</label>
         <select id="productCategory" name="productCategory" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
+            <option value="volvo">Vui lòng chọn ...</option>
+            @foreach (var cat in categories)
+            {
+                <option value="@cat.categoryCode">@cat.categoryName</option>
+            }
         </select>
     </div>
     <div class="col-md-6">

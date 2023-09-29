@@ -10,8 +10,8 @@ namespace DoAn_KTLT.Models
     [Serializable]
     public class Category
     {
-        public string categoryCode { get; set; }
-        public string categoryName { get; set; }
+        public string categoryCode { get; set; } = "";
+        public string categoryName { get; set; } = "";
 
         public Category()
         {
