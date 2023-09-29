@@ -19,58 +19,84 @@ namespace DoAn_KTLT.Controllers
             List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
             if (searchText != null && searchText != "")
             {
-                ReadListInvoice = ReadListInvoice.FindAll(p => Utils.StringLike(p.invoiceCode, searchText) || Utils.StringLike(p.invoiceCustomerName, searchText));
-            }/*
-            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-            foreach (Product p in ReadListProduct)
-            {
-                Category? category = ReadListCategory.Find(cat => cat.categoryCode == p.productCategory);
-                if (category != null)
-                {
-                    p.productCategoryName = category.categoryName;
-                }
-            }*/
+                ReadListInvoice = ReadListInvoice.FindAll(p => Utils.StringLike(p.InvoiceCode, searchText) || Utils.StringLike(p.InvoiceCustomerName, searchText));
+            }
+
             ViewBag.InvoiceList = ReadListInvoice.ToArray();
             return View();
-        } //??
+        }
 
-        public IActionResult EditInvoice(string invoiceCode)
+        // https://www.telerik.com/blogs/how-to-pass-multiple-parameters-get-method-aspnet-core-mvc
+        [HttpGet("Invoice/Details/{InvoiceCode}")]
+        public ActionResult Details(string InvoiceCode)
         {
             List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
-            Invoice? invoice = ReadListInvoice.Find(x => x.invoiceCode == invoiceCode);
-            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory(); //??
+            Invoice? invoice = ReadListInvoice.Find(x => x.InvoiceCode == InvoiceCode);
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
 
-            ViewBag.CategoryList = ReadListCategory.ToArray();//??
+            if (invoice != null)
+            {
+                foreach (InvoiceProduct item in invoice.PoductItems)
+                {
+                    Product? product = ReadListProduct.Find(x => x.ProductCode == item.InvoiceProductCode);
+                    if (product != null)
+                    {
+                        item.InvoiceProductName = product.ProductName;
+                        item.InvoiceProductPrice = product.ProductPrice;
+                    }
+                }
+            }
+
             ViewBag.invoice = invoice;
             return View();
-        } //??
+        }
+
+        [HttpGet("Invoice/Edit/{InvoiceCode}")]
+        public IActionResult EditInvoice(string InvoiceCode)
+        {
+            List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+            Invoice? invoice = ReadListInvoice.Find(x => x.InvoiceCode == InvoiceCode);
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+
+            if (invoice != null)
+            {
+                foreach (InvoiceProduct item in invoice.PoductItems)
+                {
+                    Product? product = ReadListProduct.Find(x => x.ProductCode == item.InvoiceProductCode);
+                    if (product != null)
+                    {
+                        item.InvoiceProductName = product.ProductName;
+                        item.InvoiceProductPrice = product.ProductPrice;
+                    }
+                }
+            }
+
+            ViewBag.invoice = invoice;
+            ViewBag.ProductList = ReadListProduct.ToArray();
+            return View();
+        }
 
         public IActionResult CreateInvoice()
         {
-            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();//???
-            ViewBag.CategoryList = ReadListCategory.ToArray();//???
             return View();
-        } //??
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpPost]
+        [HttpPost("Invoice/Create")]
         [ActionName("CreateInvoice")]
-
         public ActionResult CreateInvoice(Invoice newInvoice)
         {
             try
             {
                 List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
-
+                newInvoice.InvoiceCreateDate = DateTime.Now;
                 ReadListInvoice.Add(newInvoice);
                 IOFile.IOFile.SaveInvoices(ReadListInvoice);
-                return Redirect("/Invoice");
+                return Redirect("/Invoice/Edit/" + newInvoice.InvoiceCode);
             }
             catch
             {
@@ -78,18 +104,19 @@ namespace DoAn_KTLT.Controllers
             }
         }
 
-        [HttpPost]
-        [ActionName("EditInvoice")]
-        public ActionResult EditInvoice(Invoice updatedInvoice)
+        [HttpPost("Invoice/Update/{InvoiceCode}")]
+        [ActionName("UpdateInvoice")]
+        public ActionResult UpdateInvoice(Invoice updatedInvoice)
         {
             try
             {
                 List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
 
-                int invoiceIndex = ReadListInvoice.FindIndex(x => x.invoiceCode == updatedInvoice.invoiceCode);
+                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == updatedInvoice.InvoiceCode);
 
                 if (invoiceIndex >= 0)
                 {
+                    updatedInvoice.PoductItems = ReadListInvoice[invoiceIndex].PoductItems;
                     ReadListInvoice.RemoveAt(invoiceIndex);
                     ReadListInvoice.Insert(invoiceIndex, updatedInvoice);
                     IOFile.IOFile.SaveInvoices(ReadListInvoice);
@@ -103,14 +130,66 @@ namespace DoAn_KTLT.Controllers
             }
         }
 
-        [HttpPost]
-        [ActionName("DeleteInvoice")]
-        public ActionResult DeleteInvoice(string invoiceCode)
+        [HttpPost("Invoice/Edit/{InvoiceCode}/ProductItem")]
+        [ActionName("CreateInvoiceProductItem")]
+        public ActionResult CreateInvoiceProductItem(string InvoiceCode, InvoiceProduct newInvoiceProduct)
         {
             try
             {
                 List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
-                int invoiceIndex = ReadListInvoice.FindIndex(x => x.invoiceCode == invoiceCode);
+
+                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
+
+                if (invoiceIndex >= 0)
+                {
+                    ReadListInvoice[invoiceIndex].PoductItems.Add(newInvoiceProduct);
+                    IOFile.IOFile.SaveInvoices(ReadListInvoice);
+                }
+
+                return Redirect("/Invoice/Edit/" + InvoiceCode);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost("Invoice/Delete/{InvoiceCode}/ProductItem/{ProductCode}")]
+        [ActionName("DeleteInvoiceProductItem")]
+        public ActionResult DeleteInvoiceProductItem(string InvoiceCode, string ProductCode)
+        {
+            try
+            {
+                List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+
+                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
+
+                if (invoiceIndex >= 0)
+                {
+                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
+                    if (invoiceProducItemIndex >= 0)
+                    {
+                        ReadListInvoice[invoiceIndex].PoductItems.RemoveAt(invoiceProducItemIndex);
+                        IOFile.IOFile.SaveInvoices(ReadListInvoice);
+                    }
+                }
+
+                return Redirect("/Invoice/Edit/" + InvoiceCode);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost("Invoice/Delete/{InvoiceCode}")]
+        [ActionName("DeleteInvoice")]
+        public ActionResult DeleteInvoice(string InvoiceCode)
+        {
+            try
+            {
+                List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
 
                 if (invoiceIndex >= 0)
                 {

@@ -6,19 +6,19 @@ namespace DoAn_KTLT.Models
     [Serializable]
     public class Product
     {
-        public string productCode { get; set; } = "";
-        public string productName { get; set; } = "";
-        public string productExpiredAt { get; set; } = "";
-        public string productCompany { get; set; } = "";
-        public string productProductionDate { get; set; } = "";
-        public string productCategory { get; set; } = "";
-        public string productCategoryName { get; set; } = "";
-        public string productPrice { get; set; } = "";
-        public string productQuantity { get; set; } = "";
+        public string ProductCode { get; set; } = "";
+        public string ProductName { get; set; } = "";
+        public DateTime ProductExpiredAt { get; set; }
+        public string ProductCompany { get; set; } = "";
+        public DateTime ProductProductionDate { get; set; }
+        public string ProductCategory { get; set; } = "";
+        public string ProductCategoryName { get; set; } = "";
+        public long ProductPrice { get; set; } = 0;
+        public int ProductQuantity { get; set; } = 0;
 
         public Product()
         {
-            productCode = Utils.GenerateString();
+            ProductCode = Utils.GenerateString();
         }
     }
 }

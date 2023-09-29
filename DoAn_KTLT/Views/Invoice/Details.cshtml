@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Chi tiết hóa đơn";
+    Invoice invoice = ViewBag.invoice;
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (invoice == null)
+{
+    <p>Hóa đơn không tồn taị </p>
+}
+else
+{
+    <form class="row" method="post" action="EditInvoice?InvoiceCode=@invoice.InvoiceCode">
+        <div class="col-md-6">
+            <label for="InvoiceCode">Mã hóa đơn:</label>
+            <input type="text" class="form-control" value="@invoice.InvoiceCode" disabled>
+        </div>
+        <div class="col-md-6">
+            <label for="InvoiceCustomerName">Tên khách hàng:</label>
+            <input type="text" id="InvoiceCustomerName" name="InvoiceCustomerName" class="form-control" value="@invoice.InvoiceCustomerName" disabled>
+        </div>
+
+        <div class="col-md-6">
+            <label for="InvoiceCustomerAddress">Địa chỉ:</label>
+            <input type="text" id="InvoiceCustomerAddress" name="InvoiceCustomerAddress" class="form-control" value="@invoice.InvoiceCustomerAddress" disabled>
+        </div>
+        <div class="col-md-6">
+            <label for="InvoiceCustomerPhone">Số điện thoại:</label>
+            <input type="text" id="InvoiceCustomerPhone" name="InvoiceCustomerPhone" class="form-control" value="@invoice.InvoiceCustomerPhone" disabled>
+        </div>
+        <div class="col-md-6">
+            <label for="InvoiceCreateDate">Ngày tạo hóa đơn:</label>
+            <input type="date" id="InvoiceCreateDate" name="InvoiceCreateDate" class="form-control" value="@invoice.InvoiceCreateDate.ToString("yyyy-MM-dd")" disabled>
+        </div>
+
+
+        <div class="mt-3" />
+        <h3>Danh sách sản phẩm</h3>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Mã sản phẩm:</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá:</th>
+                    <th>Số lượng:</th>
+                    <th>Thành tiền:</th>
+                </tr>
+                @foreach (InvoiceProduct invoiceProduct in invoice.PoductItems)
+                {
+                    double totalAmount = Convert.ToDouble(invoiceProduct.InvoiceProductPrice) * Convert.ToDouble(invoiceProduct.InvoiceProductQuantity);
+                    <tr>
+                        <td>@invoiceProduct.InvoiceProductCode</td>
+                        <td>@invoiceProduct.InvoiceProductName</td>
+                        <td>@invoiceProduct.InvoiceProductPrice.ToString("#,##0")</td>
+                        <td>@invoiceProduct.InvoiceProductQuantity</td>
+                        <td>@totalAmount.ToString("#,##0")</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </form>
+}
+

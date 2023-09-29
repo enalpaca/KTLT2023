@@ -20,25 +20,25 @@ namespace DoAn_KTLT.Controllers
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
             if (searchText != null && searchText != "")
             {
-                ReadListProduct = ReadListProduct.FindAll(p => Utils.StringLike(p.productName, searchText) || Utils.StringLike(p.productCompany, searchText));
+                ReadListProduct = ReadListProduct.FindAll(p => Utils.StringLike(p.ProductName, searchText) || Utils.StringLike(p.ProductCompany, searchText));
             }
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
             foreach (Product p in ReadListProduct)
             {
-                Category? category = ReadListCategory.Find(cat => cat.categoryCode == p.productCategory);
+                Category? category = ReadListCategory.Find(cat => cat.CategoryCode == p.ProductCategory);
                 if (category != null)
                 {
-                    p.productCategoryName = category.categoryName;
+                    p.ProductCategoryName = category.CategoryName;
                 }
             }
             ViewBag.ProductList = ReadListProduct.ToArray();
             return View();
         }
 
-        public IActionResult EditProduct(string productCode)
+        public IActionResult EditProduct(string ProductCode)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-            Product? product = ReadListProduct.Find(x => x.productCode == productCode);
+            Product? product = ReadListProduct.Find(x => x.ProductCode == ProductCode);
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
 
             ViewBag.CategoryList = ReadListCategory.ToArray();
@@ -86,7 +86,7 @@ namespace DoAn_KTLT.Controllers
             {
                 List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
 
-                int productIndex = ReadListProduct.FindIndex(x => x.productCode == updatedProduct.productCode);
+                int productIndex = ReadListProduct.FindIndex(x => x.ProductCode == updatedProduct.ProductCode);
 
                 if (productIndex >= 0)
                 {
@@ -105,12 +105,12 @@ namespace DoAn_KTLT.Controllers
 
         [HttpPost]
         [ActionName("DeleteProduct")]
-        public ActionResult DeleteProduct(string productCode)
+        public ActionResult DeleteProduct(string ProductCode)
         {
             try
             {
                 List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-                int productIndex = ReadListProduct.FindIndex(x => x.productCode == productCode);
+                int productIndex = ReadListProduct.FindIndex(x => x.ProductCode == ProductCode);
 
                 if (productIndex >= 0)
                 {

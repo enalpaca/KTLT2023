@@ -10,14 +10,14 @@
 }
 else
 {
-    <form class="row" method="post" action="EditCategory?categoryCode=@category.categoryCode">
+    <form class="row" method="post" action="EditCategory?CategoryCode=@category.CategoryCode">
         <div class="col-md-6">
-            <label for="categoryName" class="form-label">Mã:</label>
-            <input type="text" class="form-control" value="@category.categoryCode" disabled>
+            <label for="CategoryName">Mã:</label>
+            <input type="text" class="form-control" value="@category.CategoryCode" disabled>
         </div>
         <div class="col-md-6">
-            <label for="categoryName" class="form-label">Tên loại hàng:</label>
-            <input type="text" id="categoryName" name="categoryName" class="form-control" value="@category.categoryName">
+            <label for="CategoryName">Tên loại hàng:</label>
+            <input type="text" id="CategoryName" name="CategoryName" class="form-control" value="@category.CategoryName">
         </div>
 
         <div class="mt-3 col-md-12">

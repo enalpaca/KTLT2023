@@ -22,34 +22,24 @@ namespace DoAn_KTLT.Controllers
             {
                 ReadListGoodsReceiptBill = ReadListGoodsReceiptBill.FindAll(p => Utils.StringLike(p.goodsReceiptBillProductName, searchText) || Utils.StringLike(p.goodsReceiptBillProductCompany, searchText));
             }
-/*            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-            foreach (Product p in ReadListProduct)
-            {
-                Category? category = ReadListCategory.Find(cat => cat.categoryCode == p.productCategory);
-                if (category != null)
-                {
-                    p.productCategoryName = category.categoryName;
-                }
-            }*/
+
             ViewBag.GoodsReceiptBillList = ReadListGoodsReceiptBill.ToArray();
             return View();
-        }//??
+        }
 
         public IActionResult EditGoodsReceiptBill(string goodsReceiptBillCode)
         {
             List<GoodsReceiptBill> ReadListGoodsReceiptBill = IOFile.IOFile.ReadGoodsReceiptBill();
             GoodsReceiptBill? goodsReceiptBill = ReadListGoodsReceiptBill.Find(x => x.goodsReceiptBillCode == goodsReceiptBillCode);
-/*            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
 
-            ViewBag.CategoryList = ReadListCategory.ToArray();*/
             ViewBag.goodsReceiptBill = goodsReceiptBill;
             return View();
         }
 
         public IActionResult CreateGoodsReceiptBill()
         {
-/*            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-            ViewBag.CategoryList = ReadListCategory.ToArray();*/ 
+            /*            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+                        ViewBag.CategoryList = ReadListCategory.ToArray();*/
             return View();
         }
 

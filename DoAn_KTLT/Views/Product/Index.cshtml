@@ -35,22 +35,22 @@
         @foreach (var item in ViewBag.ProductList)
         {
             <tr>
-                <td>@item.productCode</td>
-                <td>@item.productName</td>
-                <td>@item.productExpiredAt</td>
-                <td>@item.productCompany</td>
-                <td>@item.productProductionDate</td>
-                <td>@item.productCategoryName</td>
-                <td>@item.productPrice</td>
-                <td>@item.productQuantity</td>
+                <td>@item.ProductCode</td>
+                <td>@item.ProductName</td>
+                <td>@item.ProductExpiredAt.ToString("yyyy-MM-dd")</td>
+                <td>@item.ProductCompany</td>
+                <td>@item.ProductProductionDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.ProductCategoryName</td>
+                <td>@item.ProductPrice.ToString("#,##0")</td>
+                <td>@item.ProductQuantity</td>
                 <td>
 
                     <div class="btn-group" role="group" aria-label="First group">
-                        <a href="/Product/EditProduct?productCode=@item.productCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                        <a href="/Product/EditProduct?ProductCode=@item.ProductCode"><button type="button" class="btn btn-warning">Sửa</button></a>
                     </div>
 
                     <div class="btn-group" role="group" aria-label="Third group">
-                        <form method="post" action="Product/DeleteProduct?productCode=@item.productCode">
+                        <form method="post" action="Product/DeleteProduct?ProductCode=@item.ProductCode">
                             <input class="btn btn-danger" type="submit" value="Xóa">
                         </form>
                     </div>

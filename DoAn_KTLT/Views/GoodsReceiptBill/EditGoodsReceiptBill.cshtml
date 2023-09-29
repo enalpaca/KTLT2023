@@ -13,15 +13,15 @@ else
 {
     <form class="row" method="post" action="EditGoodsReceiptBill?goodsReceiptBillCode=@goodsReceiptBill.goodsReceiptBillCode">
         <div class="col-md-6">
-            <label for="goodsReceiptBillCode" class="form-label">Mã hóa đơn:</label>
+            <label for="goodsReceiptBillCode" >Mã hóa đơn:</label>
             <input type="text" class="form-control" value="@goodsReceiptBill.goodsReceiptBillCode" disabled>
         </div>
         <div class="col-md-6">
-            <label for="goodsReceiptBillProductName" class="form-label">Tên hàng:</label>
+            <label for="goodsReceiptBillProductName" >Tên hàng:</label>
             <input type="text" id="goodsReceiptBillProductName" name="goodsReceiptBillProductName" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductName">
         </div>
         <div class="col-md-6">
-            <label for="goodsReceiptBillProductQuantity" class="form-label">Số lượng:</label>
+            <label for="goodsReceiptBillProductQuantity" >Số lượng:</label>
             <input type="number" id="goodsReceiptBillProductQuantity" name="goodsReceiptBillProductQuantity" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductQuantity">
         </div>
         <div class="col-md-6">
@@ -33,12 +33,12 @@ else
             <input type="number" id="goodsReceiptBillProductPrice" name="goodsReceiptBillProductPrice" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductPrice">
         </div>
 @*         <div class="col-md-6">
-            <label for="productCategory">Loại hàng:</label>
-            <select id="productCategory" name="productCategory" class="form-control" asp-for="@product.productCategory">
+            <label for="ProductCategory">Loại hàng:</label>
+            <select id="ProductCategory" name="ProductCategory" class="form-control" asp-for="@product.ProductCategory">
                 <option value="volvo">Vui lòng chọn ...</option>
                 @foreach (var cat in categories)
                 {
-                    <option value="@cat.categoryCode">@cat.categoryName</option>
+                    <option value="@cat.CategoryCode">@cat.CategoryName</option>
                 }
             </select>
         </div> *@

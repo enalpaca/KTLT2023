@@ -1,5 +1,5 @@
 ﻿using DoAn_KTLT.IOFile;
-using System;
+
 namespace DoAn_KTLT.Models
 {
     public class GoodsReceiptBill

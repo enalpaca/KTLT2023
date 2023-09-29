@@ -19,22 +19,21 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
-
         public IActionResult Index(string searchText)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
             if (searchText != null && searchText != "")
             {
-                ReadListCategory = ReadListCategory.FindAll(p => p.categoryCode.Contains(searchText) || p.categoryName.Contains(searchText) );
+                ReadListCategory = ReadListCategory.FindAll(p => p.CategoryCode.Contains(searchText) || p.CategoryName.Contains(searchText));
             }
             ViewBag.CategoryList = ReadListCategory.ToArray();
             return View();
         }
 
-        public IActionResult EditCategory(string categoryCode)
+        public IActionResult EditCategory(string CategoryCode)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-            Category? category = ReadListCategory.Find(x => x.categoryCode == categoryCode);
+            Category? category = ReadListCategory.Find(x => x.CategoryCode == CategoryCode);
             ViewBag.category = category;
             return View();
         }
@@ -44,17 +43,13 @@ namespace DoAn_KTLT.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
         [HttpPost]
         [ActionName("CreateCategory")]
-
         public ActionResult CreateCategory(Category newCategory)
         {
             try
@@ -71,17 +66,15 @@ namespace DoAn_KTLT.Controllers
             }
         }
 
-
         [HttpPost]
         [ActionName("EditCategory")]
-
         public ActionResult EditCategory(Category updatedCategory)
         {
             try
             {
                 List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
 
-                int categoryIndex = ReadListCategory.FindIndex(x => x.categoryCode == updatedCategory.categoryCode);
+                int categoryIndex = ReadListCategory.FindIndex(x => x.CategoryCode == updatedCategory.CategoryCode);
 
                 if (categoryIndex >= 0)
                 {
@@ -100,13 +93,12 @@ namespace DoAn_KTLT.Controllers
 
         [HttpPost]
         [ActionName("DeleteCategory")]
-
-        public ActionResult DeleteCategory(string categoryCode)
+        public ActionResult DeleteCategory(string CategoryCode)
         {
             try
             {
                 List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-                int categoryIndex = ReadListCategory.FindIndex(x => x.categoryCode == categoryCode);
+                int categoryIndex = ReadListCategory.FindIndex(x => x.CategoryCode == CategoryCode);
 
                 if (categoryIndex >= 0)
                 {

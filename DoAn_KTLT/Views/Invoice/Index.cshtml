@@ -26,31 +26,28 @@
             <th>Tên khách hàng</th>
             <th>Địa chỉ</th>
             <th>Số điện thoại</th>
-            <th>Tên hàng</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
             <th>Ngày tạo hóa đơn</th>
             <th>Hành động</th>
         </tr>
         @foreach (var item in ViewBag.InvoiceList)
         {
             <tr>
-                <td>@item.invoiceCode</td>
-                <td>@item.invoiceCustomerName</td>
-                <td>@item.invoiceCustomerAddress</td>
-                <td>@item.invoiceCustomerPhone</td>
-                <td>@item.invoiceProductname</td>
-                <td>@item.invoiceProductPrice</td>
-                <td>@item.invoiceProductQuantity</td>
-                <td>@item.invoiceCreateDate</td>
+                <td>@item.InvoiceCode</td>
+                <td>@item.InvoiceCustomerName</td>
+                <td>@item.InvoiceCustomerAddress</td>
+                <td>@item.InvoiceCustomerPhone</td>
+                <td>@item.InvoiceCreateDate</td>
                 <td>
-
-                    <div class="btn-group" role="group" aria-label="First group">
-                        <a href="/Invoice/EditInvoice?invoiceCode=@item.invoiceCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                    <div class="btn-group m-1" role="group" aria-label="First group">
+                        <a href="Invoice/Details/@item.InvoiceCode"><button type="button" class="btn btn-info">Chi tiết</button></a>
                     </div>
 
-                    <div class="btn-group" role="group" aria-label="Third group">
-                        <form method="post" action="Product/DeleteInvoice?invoiceCode=@item.invoiceCode">
+                    <div class="btn-group m-1" role="group" aria-label="First group">
+                        <a href="/Invoice/Edit/@item.InvoiceCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                    </div>
+
+                    <div class="btn-group m-1" role="group" aria-label="Third group">
+                        <form method="post" action="Invoice/Delete/@item.InvoiceCode">
                             <input class="btn btn-danger" type="submit" value="Xóa">
                         </form>
                     </div>

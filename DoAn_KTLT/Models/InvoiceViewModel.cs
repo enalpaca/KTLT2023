@@ -3,21 +3,26 @@
 namespace DoAn_KTLT.Models
 {
     [Serializable]
+    public class InvoiceProduct
+    {
+        public string InvoiceProductName { get; set; } = "";
+        public string InvoiceProductCode { get; set; } = "";
+        public long InvoiceProductPrice { get; set; } = 0;
+        public int InvoiceProductQuantity { get; set; } = 0;
+    }
+
+    [Serializable]
     public class Invoice
     {
-        public string invoiceCode { get; set; } = "";
-        public string invoiceCreateDate { get; set; } = "";
-        public string invoiceCustomerName { get; set; } = "";
-        public string invoiceCustomerAddress { get; set; } = "";
-        public string invoiceCustomerPhone { get; set; } = "";
-        public string invoiceProductname { get; set; } = "";
-        public string invoiceProductCode { get; set; } = "";
-        public string invoiceProductPrice { get; set; } = "";
-        public string invoiceProductQuantity { get; set; } = "";
+        public string InvoiceCode { get; set; } = "";
+        public DateTime InvoiceCreateDate { get; set; }
+        public string InvoiceCustomerName { get; set; } = "";
+        public string InvoiceCustomerAddress { get; set; } = "";
+        public string InvoiceCustomerPhone { get; set; } = "";
+        public List<InvoiceProduct> PoductItems { get; set; } = new List<InvoiceProduct>();
         public Invoice()
         {
-            invoiceCode = Utils.GenerateString();
+            InvoiceCode = Utils.GenerateString();
         }
-
     }
 }

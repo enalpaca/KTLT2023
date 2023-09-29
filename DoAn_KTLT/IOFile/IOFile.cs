@@ -21,17 +21,18 @@ namespace DoAn_KTLT.IOFile
 
         public static List<T> Load<T>(string fileName)
         {
-            var list = new List<T>();
 
             if (File.Exists(fileName))
             {
                 string json = File.ReadAllText(fileName);
-                if (json != "" && json != null)
+                if (json != "")
                 {
-                    return JsonSerializer.Deserialize<List<T>>(json);
+                    var list = JsonSerializer.Deserialize<List<T>>(json);
+                    return list != null ? list : new List<T>();
                 }
             }
-            return list;
+
+            return new List<T>();
         }
 
         public static void SaveProducts(List<Product> products)

@@ -27,16 +27,16 @@
         @foreach (var item in ViewBag.CategoryList)
         {
             <tr>
-                <td>@item.categoryCode</td>
-                <td>@item.categoryName</td>
+                <td>@item.CategoryCode</td>
+                <td>@item.CategoryName</td>
 
                 <td>
                     <div class="btn-group" role="group" aria-label="First group">
-                        <a href="/Category/EditCategory?categoryCode=@item.categoryCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                        <a href="/Category/EditCategory?CategoryCode=@item.CategoryCode"><button type="button" class="btn btn-warning">Sửa</button></a>
                     </div>
 
                     <div class="btn-group" role="group" aria-label="Third group">
-                        <form method="post" action="Category/DeleteCategory?categoryCode=@item.categoryCode">
+                        <form method="post" action="Category/DeleteCategory?CategoryCode=@item.CategoryCode">
                             <input class="btn btn-danger" type="submit" value="Xóa">
                         </form>
                     </div>
