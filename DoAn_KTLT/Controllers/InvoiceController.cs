@@ -142,8 +142,17 @@ namespace DoAn_KTLT.Controllers
 
                 if (invoiceIndex >= 0)
                 {
-                    ReadListInvoice[invoiceIndex].PoductItems.Add(newInvoiceProduct);
+                    int productItemsIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(y => y.InvoiceProductCode == newInvoiceProduct.InvoiceProductCode);
+                    if (productItemsIndex >= 0)
+                    {
+                        ReadListInvoice[invoiceIndex].PoductItems[productItemsIndex].InvoiceProductQuantity += newInvoiceProduct.InvoiceProductQuantity;
+                    }
+                    else
+                    {
+                        ReadListInvoice[invoiceIndex].PoductItems.Add(newInvoiceProduct);
+                    }
                     IOFile.IOFile.SaveInvoices(ReadListInvoice);
+
                 }
 
                 return Redirect("/Invoice/Edit/" + InvoiceCode);
@@ -170,6 +179,34 @@ namespace DoAn_KTLT.Controllers
                     if (invoiceProducItemIndex >= 0)
                     {
                         ReadListInvoice[invoiceIndex].PoductItems.RemoveAt(invoiceProducItemIndex);
+                        IOFile.IOFile.SaveInvoices(ReadListInvoice);
+                    }
+                }
+
+                return Redirect("/Invoice/Edit/" + InvoiceCode);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost("Invoice/Update/{InvoiceCode}/ProductItem/{ProductCode}")]
+        [ActionName("UpdateInvoiceProductItem")]
+        public ActionResult UpdateInvoiceProductItem(string InvoiceCode, string ProductCode, InvoiceProduct updatedInvoiceProduct)
+        {
+            try
+            {
+                List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+
+                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
+
+                if (invoiceIndex >= 0)
+                {
+                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
+                    if (invoiceProducItemIndex >= 0)
+                    {
+                        ReadListInvoice[invoiceIndex].PoductItems[invoiceProducItemIndex].InvoiceProductQuantity = updatedInvoiceProduct.InvoiceProductQuantity;
                         IOFile.IOFile.SaveInvoices(ReadListInvoice);
                     }
                 }

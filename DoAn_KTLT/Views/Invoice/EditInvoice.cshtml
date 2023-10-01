@@ -28,7 +28,7 @@ else
         </div>
         <div class="col-md-6">
             <label for="InvoiceCustomerPhone">Số điện thoại:</label>
-            <input type="text" id="InvoiceCustomerPhone" name="InvoiceCustomerPhone" class="form-control" value="@invoice.InvoiceCustomerPhone">
+            <input type="tel" id="InvoiceCustomerPhone" name="InvoiceCustomerPhone" class="form-control" value="@invoice.InvoiceCustomerPhone" pattern="[0-9]{10}">
         </div>
         <div class="col-md-6">
             <label for="InvoiceCreateDate">Ngày tạo hóa đơn:</label>
@@ -98,20 +98,25 @@ else
             @foreach (InvoiceProduct invoiceProduct in invoice.PoductItems)
             {
                 long totalAmount = invoiceProduct.InvoiceProductPrice * invoiceProduct.InvoiceProductQuantity;
+                <form method="post">
                 <tr>
                     <td>@invoiceProduct.InvoiceProductCode</td>
                     <td>@invoiceProduct.InvoiceProductName</td>
                     <td>@invoiceProduct.InvoiceProductPrice.ToString("#,##0")</td>
-                    <td>@invoiceProduct.InvoiceProductQuantity</td>
+                    <td> <input type="number" min="0" max="1000" name="InvoiceProductQuantity" value="@invoiceProduct.InvoiceProductQuantity" /> </td>
                     <td>@totalAmount.ToString("#,##0")</td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Third group">
+                        <div class="btn-group m-1" role="group">
+                            <button type="submit" class="btn btn-success" formaction="/Invoice/Update/@invoice.InvoiceCode/ProductItem/@invoiceProduct.InvoiceProductCode/">Cập nhật</button>
+                        </div>
+                        <div class="btn-group m-1" role="group">
                             <form method="post">
                                 <button type="submit" class="btn btn-danger" formaction="/Invoice/Delete/@invoice.InvoiceCode/ProductItem/@invoiceProduct.InvoiceProductCode/">Xóa</button>
                             </form>
                         </div>
                     </td>
                 </tr>
+                </form>
             }
         </table>
     </div>
