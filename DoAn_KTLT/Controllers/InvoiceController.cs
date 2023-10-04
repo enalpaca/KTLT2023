@@ -36,7 +36,7 @@ namespace DoAn_KTLT.Controllers
 
             if (invoice != null)
             {
-                foreach (InvoiceProduct item in invoice.PoductItems)
+                foreach (InvoiceProduct item in invoice.ProductItems)
                 {
                     Product? product = ReadListProduct.Find(x => x.ProductCode == item.InvoiceProductCode);
                     if (product != null)
@@ -60,7 +60,7 @@ namespace DoAn_KTLT.Controllers
 
             if (invoice != null)
             {
-                foreach (InvoiceProduct item in invoice.PoductItems)
+                foreach (InvoiceProduct item in invoice.ProductItems)
                 {
                     Product? product = ReadListProduct.Find(x => x.ProductCode == item.InvoiceProductCode);
                     if (product != null)
@@ -116,7 +116,7 @@ namespace DoAn_KTLT.Controllers
 
                 if (invoiceIndex >= 0)
                 {
-                    updatedInvoice.PoductItems = ReadListInvoice[invoiceIndex].PoductItems;
+                    updatedInvoice.ProductItems = ReadListInvoice[invoiceIndex].ProductItems;
                     ReadListInvoice.RemoveAt(invoiceIndex);
                     ReadListInvoice.Insert(invoiceIndex, updatedInvoice);
                     IOFile.IOFile.SaveInvoices(ReadListInvoice);
@@ -142,14 +142,14 @@ namespace DoAn_KTLT.Controllers
 
                 if (invoiceIndex >= 0)
                 {
-                    int productItemsIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(y => y.InvoiceProductCode == newInvoiceProduct.InvoiceProductCode);
+                    int productItemsIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(y => y.InvoiceProductCode == newInvoiceProduct.InvoiceProductCode);
                     if (productItemsIndex >= 0)
                     {
-                        ReadListInvoice[invoiceIndex].PoductItems[productItemsIndex].InvoiceProductQuantity += newInvoiceProduct.InvoiceProductQuantity;
+                        ReadListInvoice[invoiceIndex].ProductItems[productItemsIndex].InvoiceProductQuantity += newInvoiceProduct.InvoiceProductQuantity;
                     }
                     else
                     {
-                        ReadListInvoice[invoiceIndex].PoductItems.Add(newInvoiceProduct);
+                        ReadListInvoice[invoiceIndex].ProductItems.Add(newInvoiceProduct);
                     }
                     IOFile.IOFile.SaveInvoices(ReadListInvoice);
 
@@ -175,10 +175,10 @@ namespace DoAn_KTLT.Controllers
 
                 if (invoiceIndex >= 0)
                 {
-                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
+                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
                     if (invoiceProducItemIndex >= 0)
                     {
-                        ReadListInvoice[invoiceIndex].PoductItems.RemoveAt(invoiceProducItemIndex);
+                        ReadListInvoice[invoiceIndex].ProductItems.RemoveAt(invoiceProducItemIndex);
                         IOFile.IOFile.SaveInvoices(ReadListInvoice);
                     }
                 }
@@ -203,10 +203,10 @@ namespace DoAn_KTLT.Controllers
 
                 if (invoiceIndex >= 0)
                 {
-                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].PoductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
+                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
                     if (invoiceProducItemIndex >= 0)
                     {
-                        ReadListInvoice[invoiceIndex].PoductItems[invoiceProducItemIndex].InvoiceProductQuantity = updatedInvoiceProduct.InvoiceProductQuantity;
+                        ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity = updatedInvoiceProduct.InvoiceProductQuantity;
                         IOFile.IOFile.SaveInvoices(ReadListInvoice);
                     }
                 }

@@ -19,7 +19,7 @@ namespace DoAn_KTLT.Models
         public string InvoiceCustomerName { get; set; } = "";
         public string InvoiceCustomerAddress { get; set; } = "";
         public string InvoiceCustomerPhone { get; set; } = "";
-        public List<InvoiceProduct> PoductItems { get; set; } = new List<InvoiceProduct>();
+        public List<InvoiceProduct> ProductItems { get; set; } = new List<InvoiceProduct>();
         public Invoice()
         {
             InvoiceCode = Utils.GenerateString();

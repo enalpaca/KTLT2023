@@ -34,7 +34,21 @@ namespace DoAn_KTLT.Controllers
             ViewBag.ProductList = ReadListProduct.ToArray();
             return View();
         }
+        public IActionResult ExpireStatistic()
+        {
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductExpiredAt <= DateTime.Now);
+            ViewBag.ProductList = expireSattistic.ToArray();
+            return View("../Statistic/Expire");
+        }
 
+        public IActionResult StockStatistic()
+        {
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductQuantity>0);
+            ViewBag.ProductList = expireSattistic.ToArray();
+            return View("../Statistic/Stock");
+        }
         public IActionResult EditProduct(string ProductCode)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();

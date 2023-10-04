@@ -31,15 +31,17 @@ namespace DoAn_KTLT.Controllers
         {
             List<GoodsReceiptBill> ReadListGoodsReceiptBill = IOFile.IOFile.ReadGoodsReceiptBill();
             GoodsReceiptBill? goodsReceiptBill = ReadListGoodsReceiptBill.Find(x => x.goodsReceiptBillCode == goodsReceiptBillCode);
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
 
+            ViewBag.ProductList = ReadListProduct.ToArray();
             ViewBag.goodsReceiptBill = goodsReceiptBill;
             return View();
         }
 
         public IActionResult CreateGoodsReceiptBill()
         {
-            /*            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-                        ViewBag.CategoryList = ReadListCategory.ToArray();*/
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            ViewBag.ProductList = ReadListProduct.ToArray();
             return View();
         }
 

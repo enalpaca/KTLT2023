@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Thống kê hàng tồn kho";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Mã</th>
+            <th>Tên hàng</th>
+            <th>Hạn dùng</th>
+            <th>Công ty sản xuất</th>
+            <th>Ngày sản xuất</th>
+            <th>Loại hàng</th>
+            <th>Giá</th>
+            <th>Số lượng tồn kho</th>
+        </tr>
+        @foreach (var item in ViewBag.ProductList)
+        {
+            <tr>
+                <td>@item.ProductCode</td>
+                <td>@item.ProductName</td>
+                <td>@item.ProductExpiredAt.ToString("yyyy-MM-dd")</td>
+                <td>@item.ProductCompany</td>
+                <td>@item.ProductProductionDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.ProductCategoryName</td>
+                <td>@item.ProductPrice.ToString("#,##0")</td>
+                <td>@item.ProductQuantity</td>
+            </tr>
+        }
+    </table>
+</div>

@@ -46,7 +46,7 @@ else
                     <th>Số lượng:</th>
                     <th>Thành tiền:</th>
                 </tr>
-                @foreach (InvoiceProduct invoiceProduct in invoice.PoductItems)
+                @foreach (InvoiceProduct invoiceProduct in invoice.ProductItems)
                 {
                     double totalAmount = Convert.ToDouble(invoiceProduct.InvoiceProductPrice) * Convert.ToDouble(invoiceProduct.InvoiceProductQuantity);
                     <tr>

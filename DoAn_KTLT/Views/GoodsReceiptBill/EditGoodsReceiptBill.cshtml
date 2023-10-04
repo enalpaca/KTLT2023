@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Sửa hóa đơn nhập hàng";
     GoodsReceiptBill goodsReceiptBill = ViewBag.goodsReceiptBill;
-    /*  Category[] categories = ViewBag.CategoryList;*/
+    Product[] productList = ViewBag.ProductList;
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -17,8 +17,14 @@ else
             <input type="text" class="form-control" value="@goodsReceiptBill.goodsReceiptBillCode" disabled>
         </div>
         <div class="col-md-6">
-            <label for="goodsReceiptBillProductName" >Tên hàng:</label>
-            <input type="text" id="goodsReceiptBillProductName" name="goodsReceiptBillProductName" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductName">
+            <label for="goodsReceiptBillProductName" class="col-form-label">Tên hàng:</label>
+            <select id="goodsReceiptBillProductCode" name="goodsReceiptBillProductCode" class="form-control" asp-for="@goodsReceiptBill.goodsReceiptBillProductCode">
+                <option value="volvo">Vui lòng chọn ...</option>
+                @foreach (var product in productList)
+                {
+                    <option value="@product.ProductCode">@product.ProductName</option>
+                }
+            </select>
         </div>
         <div class="col-md-6">
             <label for="goodsReceiptBillProductQuantity" >Số lượng:</label>

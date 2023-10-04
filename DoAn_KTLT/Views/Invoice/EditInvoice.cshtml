@@ -95,7 +95,7 @@ else
                 <th>Thành tiền:</th>
                 <th></th>
             </tr>
-            @foreach (InvoiceProduct invoiceProduct in invoice.PoductItems)
+            @foreach (InvoiceProduct invoiceProduct in invoice.ProductItems)
             {
                 long totalAmount = invoiceProduct.InvoiceProductPrice * invoiceProduct.InvoiceProductQuantity;
                 <form method="post">
