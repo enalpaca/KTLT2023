@@ -243,7 +243,7 @@ namespace DoAn_KTLT.Controllers
         }
 
         [HttpPost]
-        [ActionName("SearchProduct")]
+        [ActionName("SearchInvoice")]
         public ActionResult SearchInvoice(string searchText)
         {
             var encodedLocationName = WebUtility.UrlEncode(searchText);

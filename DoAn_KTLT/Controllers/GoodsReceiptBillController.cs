@@ -18,9 +18,19 @@ namespace DoAn_KTLT.Controllers
         public IActionResult Index(string searchText)
         {
             List<GoodsReceiptBill> ReadListGoodsReceiptBill = IOFile.IOFile.ReadGoodsReceiptBill();
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            foreach (GoodsReceiptBill item in ReadListGoodsReceiptBill)
+            {
+                Product? product = ReadListProduct.Find(x => x.ProductCode == item.goodsReceiptBillProductCode);
+                if (product != null)
+                {
+                    item.goodsReceiptBillProductName = product.ProductName;
+                }
+            }
             if (searchText != null && searchText != "")
             {
-                ReadListGoodsReceiptBill = ReadListGoodsReceiptBill.FindAll(p => Utils.StringLike(p.goodsReceiptBillProductName, searchText) || Utils.StringLike(p.goodsReceiptBillProductCompany, searchText));
+              
+                ReadListGoodsReceiptBill = ReadListGoodsReceiptBill.FindAll(p => Utils.StringLike(p.goodsReceiptBillCode, searchText) || Utils.StringLike(p.goodsReceiptBillProductName, searchText) || Utils.StringLike(p.goodsReceiptBillProductCompany, searchText));
             }
 
             ViewBag.GoodsReceiptBillList = ReadListGoodsReceiptBill.ToArray();
