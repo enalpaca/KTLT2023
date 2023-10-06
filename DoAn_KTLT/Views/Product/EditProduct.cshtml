@@ -35,7 +35,7 @@ else
         <div class="col-md-6">
             <label for="ProductCategory">Loại hàng:</label>
             <select id="ProductCategory" name="ProductCategory" class="form-control" asp-for="@product.ProductCategory">
-                <option value="volvo">Vui lòng chọn ...</option>
+                <option >Vui lòng chọn ...</option>
                 @foreach (var cat in categories)
                 {
                     <option value="@cat.CategoryCode">@cat.CategoryName</option>
@@ -56,4 +56,3 @@ else
         </div>
     </form>
 }
-

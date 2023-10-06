@@ -19,7 +19,7 @@ else
         <div class="col-md-6">
             <label for="goodsReceiptBillProductName" class="col-form-label">Tên hàng:</label>
             <select id="goodsReceiptBillProductCode" name="goodsReceiptBillProductCode" class="form-control" asp-for="@goodsReceiptBill.goodsReceiptBillProductCode">
-                <option value="volvo">Vui lòng chọn ...</option>
+                <option >Vui lòng chọn ...</option>
                 @foreach (var product in productList)
                 {
                     <option value="@product.ProductCode">@product.ProductName</option>
@@ -38,16 +38,6 @@ else
             <label for="goodsReceiptBillProductPrice">Giá:</label>
             <input type="number" id="goodsReceiptBillProductPrice" name="goodsReceiptBillProductPrice" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductPrice">
         </div>
-@*         <div class="col-md-6">
-            <label for="ProductCategory">Loại hàng:</label>
-            <select id="ProductCategory" name="ProductCategory" class="form-control" asp-for="@product.ProductCategory">
-                <option value="volvo">Vui lòng chọn ...</option>
-                @foreach (var cat in categories)
-                {
-                    <option value="@cat.CategoryCode">@cat.CategoryName</option>
-                }
-            </select>
-        </div> *@
         <div class="col-md-6">
             <label for="goodsReceiptBillProductCompany">Công ty:</label>
             <input type="text" id="goodsReceiptBillProductCompany" name="goodsReceiptBillProductCompany" class="form-control" value="@goodsReceiptBill.goodsReceiptBillProductCompany">

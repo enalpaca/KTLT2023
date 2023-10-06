@@ -4,7 +4,6 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-@*https://getbootstrap.com/docs/5.0/forms/layout/*@
 <form class="row" method="post" action="CreateProduct">
 
     <div class="col-md-6">
@@ -26,7 +25,7 @@
     <div class="col-md-6">
         <label for="ProductCategory">Loại hàng:</label>
         <select id="ProductCategory" name="ProductCategory" class="form-control">
-            <option value="volvo">Vui lòng chọn ...</option>
+            <option >Vui lòng chọn ...</option>
             @foreach (var cat in categories)
             {
                 <option value="@cat.CategoryCode">@cat.CategoryName</option>
