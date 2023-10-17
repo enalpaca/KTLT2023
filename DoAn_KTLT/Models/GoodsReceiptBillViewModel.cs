@@ -15,12 +15,11 @@ namespace DoAn_KTLT.Models
         public string goodsReceiptBillCode { get; set; } = "";
         public string goodsReceiptBillProductName { get; set; } = "";
         public string goodsReceiptBillProductCode { get; set; } = "";
-        public string goodsReceiptBillProductQuantity { get; set; } = "";
-        public string goodsReceiptProductUnit { get; set; } = "";
+        public int goodsReceiptBillProductQuantity { get; set; } = 0;
         public string goodsReceiptBillProductPrice { get; set; } = "";
         public string goodsReceiptBillProductCompany { get; set; } = "";
         public string goodsReceiptBillProductDeliver { get; set; } = "";
-        public string goodsReceiptBillCreateDate { get; set; } = "";
+        public DateTime goodsReceiptBillCreateDate { get; set; } = DateTime.Now;
         public GoodsReceiptBill()
         {
             goodsReceiptBillCode = Utils.GenerateString();

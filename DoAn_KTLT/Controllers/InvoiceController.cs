@@ -14,6 +14,29 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
+        // 1-success, 2-warning, 3-danger, 4-info
+        // https://mianliencoding.com/chi-tiet-bai-viet-tao-alert-trong-asp-net-mvc-su-dung-bootstrap-28
+        protected void SetAlert(string message, int type)
+        {
+            TempData["AlertMessage"] = message;
+            if (type == 1)
+            {
+                TempData["AlertType"] = "alert-success";
+            }
+            else if (type == 2)
+            {
+                TempData["AlertType"] = "alert-warning";
+            }
+            else if (type == 3)
+            {
+                TempData["AlertType"] = "alert-danger";
+            }
+            else
+            {
+                TempData["AlertType"] = "alert-info";
+            }
+        }
+
         public IActionResult Index(string searchText)
         {
             List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
@@ -137,24 +160,42 @@ namespace DoAn_KTLT.Controllers
             try
             {
                 List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+
+                int currentProductIndex = ReadListProduct.FindIndex(p => p.ProductCode == newInvoiceProduct.InvoiceProductCode);
+                if (currentProductIndex < 0)
+                {
+                    SetAlert("Sản phẩm không tồn tại", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
+                }
+
+                if (ReadListProduct[currentProductIndex].ProductQuantity < newInvoiceProduct.InvoiceProductQuantity)
+                {
+                    SetAlert("Vượt quá số lượng tồn kho", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
+                }
 
                 int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
 
-                if (invoiceIndex >= 0)
+                if (invoiceIndex < 0)
                 {
-                    int productItemsIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(y => y.InvoiceProductCode == newInvoiceProduct.InvoiceProductCode);
-                    if (productItemsIndex >= 0)
-                    {
-                        ReadListInvoice[invoiceIndex].ProductItems[productItemsIndex].InvoiceProductQuantity += newInvoiceProduct.InvoiceProductQuantity;
-                    }
-                    else
-                    {
-                        ReadListInvoice[invoiceIndex].ProductItems.Add(newInvoiceProduct);
-                    }
-                    IOFile.IOFile.SaveInvoices(ReadListInvoice);
-
+                    SetAlert("Hóa đơn không tồn tại", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
                 }
 
+                InvoiceProduct? invoiceProduct = ReadListInvoice[invoiceIndex].ProductItems.Find(p => p.InvoiceProductCode == newInvoiceProduct.InvoiceProductCode);
+                if (invoiceProduct != null)
+                {
+                    SetAlert("Sản phẩm đã tồn tại. Vui lòng cập nhật số lượng bên dưới!", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
+                }
+
+                ReadListInvoice[invoiceIndex].ProductItems.Add(newInvoiceProduct);
+                ReadListProduct[currentProductIndex].ProductQuantity -= newInvoiceProduct.InvoiceProductQuantity;
+
+                IOFile.IOFile.SaveInvoices(ReadListInvoice);
+
+                SetAlert("Cập nhật thành công", 0);
                 return Redirect("/Invoice/Edit/" + InvoiceCode);
             }
             catch
@@ -198,19 +239,65 @@ namespace DoAn_KTLT.Controllers
             try
             {
                 List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
 
+                int currentProductIndex = ReadListProduct.FindIndex(p => p.ProductCode == ProductCode);
                 int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
 
-                if (invoiceIndex >= 0)
+                if (currentProductIndex < 0)
                 {
-                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
-                    if (invoiceProducItemIndex >= 0)
-                    {
-                        ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity = updatedInvoiceProduct.InvoiceProductQuantity;
-                        IOFile.IOFile.SaveInvoices(ReadListInvoice);
-                    }
+                    SetAlert("Sản phẩm không tồn tại", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
+                }
+                if (invoiceIndex < 0)
+                {
+                    SetAlert("Hóa đơn không tồn tại", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
                 }
 
+
+                int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
+
+                if (invoiceProducItemIndex < 0)
+                {
+                    SetAlert("Sản phẩm không tồn tại", 3);
+                    return Redirect("/Invoice/Edit/" + InvoiceCode);
+                }
+
+                int delta = updatedInvoiceProduct.InvoiceProductQuantity - ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity;
+
+                ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity = updatedInvoiceProduct.InvoiceProductQuantity;
+
+                // user tăng sl trong hóa đơn
+                if (delta > 0)
+                {
+                    if (delta > ReadListProduct[currentProductIndex].ProductQuantity)
+                    {
+                        SetAlert("Vượt quá số lượng tồn kho", 3);
+                        return Redirect("/Invoice/Edit/" + InvoiceCode);
+                    }
+
+                    // giảm sl tồn kho
+                    ReadListProduct[currentProductIndex].ProductQuantity -= delta;
+                }
+
+                // user giảm sl trong hóa đơn
+                if (delta < 0)
+                {
+                    // tăng sl tồn kho
+                    ReadListProduct[currentProductIndex].ProductQuantity += Math.Abs(delta);
+                }
+
+                // user đã giảm sl tới 0, ta sẽ xóa sp khỏi hóa đơn
+                if (ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity == 0)
+                {
+                    ReadListInvoice[invoiceIndex].ProductItems.RemoveAt(invoiceProducItemIndex);
+                }
+
+                IOFile.IOFile.SaveProducts(ReadListProduct);
+                IOFile.IOFile.SaveInvoices(ReadListInvoice);
+
+                SetAlert("Cập nhật thành công", 0);
                 return Redirect("/Invoice/Edit/" + InvoiceCode);
             }
             catch

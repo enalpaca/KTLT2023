@@ -69,9 +69,18 @@ namespace DoAn_KTLT.Controllers
             try
             {
                 List<GoodsReceiptBill> ReadListGoodsReceiptBill = IOFile.IOFile.ReadGoodsReceiptBill();
+                List<Product> ReadProduct = IOFile.IOFile.ReadProduct();
+
+                int selectedProductIndex = ReadProduct.FindIndex(p => p.ProductCode == newGoodsReceiptBill.goodsReceiptBillProductCode);
+
+                if (selectedProductIndex >= 0)
+                {
+                    ReadProduct[selectedProductIndex].ProductQuantity += newGoodsReceiptBill.goodsReceiptBillProductQuantity;
+                }
 
                 ReadListGoodsReceiptBill.Add(newGoodsReceiptBill);
                 IOFile.IOFile.SaveGoodsReceiptBills(ReadListGoodsReceiptBill);
+                IOFile.IOFile.SaveProducts(ReadProduct);
                 return Redirect("/GoodsReceiptBill");
             }
             catch
