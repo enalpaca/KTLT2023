@@ -6,7 +6,7 @@ using System.Net;
 
 namespace DoAn_KTLT.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly ILogger<ProductController> _logger;
 
@@ -45,7 +45,7 @@ namespace DoAn_KTLT.Controllers
         public IActionResult StockStatistic()
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-            List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductQuantity>0);
+            List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductQuantity > 0);
             ViewBag.ProductList = expireSattistic.ToArray();
             return View("../Statistic/Stock");
         }
@@ -121,23 +121,44 @@ namespace DoAn_KTLT.Controllers
         [ActionName("DeleteProduct")]
         public ActionResult DeleteProduct(string ProductCode)
         {
-            try
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+            List<Invoice> ReadInvoice = IOFile.IOFile.ReadInvoice();
+
+            int productIndex = ReadListProduct.FindIndex(x => x.ProductCode == ProductCode);
+
+            if (productIndex < 0)
             {
-                List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-                int productIndex = ReadListProduct.FindIndex(x => x.ProductCode == ProductCode);
-
-                if (productIndex >= 0)
-                {
-                    ReadListProduct.RemoveAt(productIndex);
-                    IOFile.IOFile.SaveProducts(ReadListProduct);
-                }
-
+                SetAlert("Sản phẩm không tồn tại!", 3);
                 return Redirect("/Product");
             }
-            catch
+
+            bool flag = false;
+
+            foreach (Invoice invoice in ReadInvoice)
             {
-                return View();
+                foreach (InvoiceProduct invoiceProduct in invoice.ProductItems)
+                {
+                    if (invoiceProduct.InvoiceProductCode == ReadListProduct[productIndex].ProductCode)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
             }
+
+            if (flag == true)
+            {
+                SetAlert("Sản phẩm tồn tại trong hóa đơn xuất. KHÔNG thể xóa!", 3);
+            }
+            else
+            {
+                ReadListProduct.RemoveAt(productIndex);
+                IOFile.IOFile.SaveProducts(ReadListProduct);
+
+                SetAlert("Xóa thành công", 0);
+            }
+
+            return Redirect("/Product");
         }
 
         [HttpPost]

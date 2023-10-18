@@ -5,36 +5,13 @@ using System.Diagnostics;
 using System.Net;
 namespace DoAn_KTLT.Controllers
 {
-    public class InvoiceController : Controller
+    public class InvoiceController : BaseController
     {
         private readonly ILogger<InvoiceController> _logger;
 
         public InvoiceController(ILogger<InvoiceController> logger)
         {
             _logger = logger;
-        }
-
-        // 1-success, 2-warning, 3-danger, 4-info
-        // https://mianliencoding.com/chi-tiet-bai-viet-tao-alert-trong-asp-net-mvc-su-dung-bootstrap-28
-        protected void SetAlert(string message, int type)
-        {
-            TempData["AlertMessage"] = message;
-            if (type == 1)
-            {
-                TempData["AlertType"] = "alert-success";
-            }
-            else if (type == 2)
-            {
-                TempData["AlertType"] = "alert-warning";
-            }
-            else if (type == 3)
-            {
-                TempData["AlertType"] = "alert-danger";
-            }
-            else
-            {
-                TempData["AlertType"] = "alert-info";
-            }
         }
 
         public IActionResult Index(string searchText)
@@ -208,28 +185,35 @@ namespace DoAn_KTLT.Controllers
         [ActionName("DeleteInvoiceProductItem")]
         public ActionResult DeleteInvoiceProductItem(string InvoiceCode, string ProductCode)
         {
-            try
+
+            List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+
+            int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
+
+            if (invoiceIndex >= 0)
             {
-                List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
+                int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
 
-                int invoiceIndex = ReadListInvoice.FindIndex(x => x.InvoiceCode == InvoiceCode);
-
-                if (invoiceIndex >= 0)
+                if (invoiceProducItemIndex >= 0)
                 {
-                    int invoiceProducItemIndex = ReadListInvoice[invoiceIndex].ProductItems.FindIndex(x => x.InvoiceProductCode == ProductCode);
-                    if (invoiceProducItemIndex >= 0)
-                    {
-                        ReadListInvoice[invoiceIndex].ProductItems.RemoveAt(invoiceProducItemIndex);
-                        IOFile.IOFile.SaveInvoices(ReadListInvoice);
-                    }
-                }
+                    int productIndex = ReadListProduct.FindIndex(p => p.ProductCode == ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductCode);
 
-                return Redirect("/Invoice/Edit/" + InvoiceCode);
+                    if (productIndex >= 0)
+                    {
+                        ReadListProduct[productIndex].ProductQuantity += ReadListInvoice[invoiceIndex].ProductItems[invoiceProducItemIndex].InvoiceProductQuantity;
+                    }
+
+                    ReadListInvoice[invoiceIndex].ProductItems.RemoveAt(invoiceProducItemIndex);
+
+                    IOFile.IOFile.SaveProducts(ReadListProduct);
+                    IOFile.IOFile.SaveInvoices(ReadListInvoice);
+                    SetAlert("Xóa thành công", 0);
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return Redirect("/Invoice/Edit/" + InvoiceCode);
+
         }
 
         [HttpPost("Invoice/Update/{InvoiceCode}/ProductItem/{ProductCode}")]

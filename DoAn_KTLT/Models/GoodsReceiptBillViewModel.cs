@@ -16,7 +16,7 @@ namespace DoAn_KTLT.Models
         public string goodsReceiptBillProductName { get; set; } = "";
         public string goodsReceiptBillProductCode { get; set; } = "";
         public int goodsReceiptBillProductQuantity { get; set; } = 0;
-        public string goodsReceiptBillProductPrice { get; set; } = "";
+        public int goodsReceiptBillProductPrice { get; set; } = 0;
         public string goodsReceiptBillProductCompany { get; set; } = "";
         public string goodsReceiptBillProductDeliver { get; set; } = "";
         public DateTime goodsReceiptBillCreateDate { get; set; } = DateTime.Now;

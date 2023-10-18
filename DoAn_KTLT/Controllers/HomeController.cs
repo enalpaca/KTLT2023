@@ -15,7 +15,7 @@ namespace DoAn_KTLT.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/Product/StockStatistic");
         }
 
         public IActionResult Privacy()

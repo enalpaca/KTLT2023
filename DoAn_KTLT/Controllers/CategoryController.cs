@@ -19,14 +19,21 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string searchText)
+        public IActionResult Index(string searchText, string confirmOnDelete, string deletedCategoryCode)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+            List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
+
             if (searchText != null && searchText != "")
             {
                 ReadListCategory = ReadListCategory.FindAll(p => p.CategoryCode.Contains(searchText) || p.CategoryName.Contains(searchText));
             }
             ViewBag.CategoryList = ReadListCategory.ToArray();
+          
+            if (confirmOnDelete == "true")
+            {
+                ViewBag.ProductListOnDeletedCategory = ReadListProduct.FindAll(p => p.ProductCategory == deletedCategoryCode).ToArray();
+            }
             return View();
         }
 
@@ -52,50 +59,39 @@ namespace DoAn_KTLT.Controllers
         [ActionName("CreateCategory")]
         public ActionResult CreateCategory(Category newCategory)
         {
-            try
-            {
-                List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
 
-                ReadListCategory.Add(newCategory);
-                IOFile.IOFile.SaveCategories(ReadListCategory);
-                return Redirect("/Category");
-            }
-            catch
-            {
-                return View();
-            }
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+
+            ReadListCategory.Add(newCategory);
+            IOFile.IOFile.SaveCategories(ReadListCategory);
+            return Redirect("/Category");
         }
 
         [HttpPost]
         [ActionName("EditCategory")]
         public ActionResult EditCategory(Category updatedCategory)
         {
-            try
+
+            List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
+
+            int categoryIndex = ReadListCategory.FindIndex(x => x.CategoryCode == updatedCategory.CategoryCode);
+
+            if (categoryIndex >= 0)
             {
-                List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
-
-                int categoryIndex = ReadListCategory.FindIndex(x => x.CategoryCode == updatedCategory.CategoryCode);
-
-                if (categoryIndex >= 0)
-                {
-                    ReadListCategory.RemoveAt(categoryIndex);
-                    ReadListCategory.Insert(categoryIndex, updatedCategory);
-                    IOFile.IOFile.SaveCategories(ReadListCategory);
-                }
-
-                return Redirect("/Category");
+                ReadListCategory.RemoveAt(categoryIndex);
+                ReadListCategory.Insert(categoryIndex, updatedCategory);
+                IOFile.IOFile.SaveCategories(ReadListCategory);
             }
-            catch
-            {
-                return View();
-            }
+
+            return Redirect("/Category");
         }
 
         [HttpPost]
         [ActionName("DeleteCategory")]
-        public ActionResult DeleteCategory(string CategoryCode)
+        public ActionResult DeleteCategory(string CategoryCode, string comfirmed)
         {
-            try
+
+            if (comfirmed == "true")
             {
                 List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
                 int categoryIndex = ReadListCategory.FindIndex(x => x.CategoryCode == CategoryCode);
@@ -108,10 +104,8 @@ namespace DoAn_KTLT.Controllers
 
                 return Redirect("/Category");
             }
-            catch
-            {
-                return View();
-            }
+
+            return Redirect("/Category?confirmOnDelete=true&deletedCategoryCode=" + CategoryCode);
         }
 
         [HttpPost]
