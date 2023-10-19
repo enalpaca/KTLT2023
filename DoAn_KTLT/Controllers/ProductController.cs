@@ -9,13 +9,13 @@ namespace DoAn_KTLT.Controllers
     public class ProductController : BaseController
     {
         private readonly ILogger<ProductController> _logger;
-
+        private int PAGE_SIZE = 2;
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index(string searchText)
+        public IActionResult Index(string searchText, int? page)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
             if (searchText != null && searchText != "")
@@ -31,7 +31,19 @@ namespace DoAn_KTLT.Controllers
                     p.ProductCategoryName = category.CategoryName;
                 }
             }
-            ViewBag.ProductList = ReadListProduct.ToArray();
+
+            int totalPage = Utils.CalculateNumberOfPage(ReadListProduct.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<Product> listProduct = ReadListProduct.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.ProductList = listProduct.ToArray();
+            ViewBag.ProductCount = ReadListProduct.Count;
+            ViewBag.searchText = searchText ?? "";
             return View();
         }
         public IActionResult ExpireStatistic()

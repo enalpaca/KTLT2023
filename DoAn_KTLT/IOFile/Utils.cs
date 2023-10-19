@@ -57,5 +57,26 @@ namespace DoAn_KTLT.IOFile
 
             return Ascii1.Contains(Ascii2, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static int CalculateNumberOfPage(int totalRow, int pageSize)
+        {
+            int totalPage = 0;
+
+            if (totalRow > pageSize)
+            {
+                totalPage = (int)Math.Ceiling((decimal)(totalRow / pageSize));
+
+                if ((totalRow % pageSize) > 0)
+                {
+                    totalPage += 1;
+                }
+            }
+            else
+            {
+                totalPage = 1;
+            }
+
+            return totalPage;
+        }
     }
 }
