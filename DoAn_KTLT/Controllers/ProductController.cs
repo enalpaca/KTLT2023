@@ -1,6 +1,7 @@
 ﻿using DoAn_KTLT.IOFile;
 using DoAn_KTLT.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 using System.Net;
 
@@ -9,7 +10,7 @@ namespace DoAn_KTLT.Controllers
     public class ProductController : BaseController
     {
         private readonly ILogger<ProductController> _logger;
-        private int PAGE_SIZE = 2;
+       
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
@@ -42,23 +43,47 @@ namespace DoAn_KTLT.Controllers
             ViewBag.totalPage = totalPage;
             ViewBag.currentPage = currentPage;
             ViewBag.ProductList = listProduct.ToArray();
-            ViewBag.ProductCount = ReadListProduct.Count;
+            ViewBag.totalRow = ReadListProduct.Count;
             ViewBag.searchText = searchText ?? "";
             return View();
         }
-        public IActionResult ExpireStatistic()
+        public IActionResult ExpireStatistic(int? page)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
             List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductExpiredAt <= DateTime.Now);
-            ViewBag.ProductList = expireSattistic.ToArray();
+
+            int totalPage = Utils.CalculateNumberOfPage(expireSattistic.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<Product> listExpireSattistic = expireSattistic.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalRow = listExpireSattistic.Count();
+
+            ViewBag.ProductList = listExpireSattistic.ToArray();
             return View("../Statistic/Expire");
         }
 
-        public IActionResult StockStatistic()
+        public IActionResult StockStatistic(int? page)
         {
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
-            List<Product> expireSattistic = ReadListProduct.FindAll(x => x.ProductQuantity > 0);
-            ViewBag.ProductList = expireSattistic.ToArray();
+            List<Product> stockSattistic = ReadListProduct.FindAll(x => x.ProductQuantity > 0);
+
+            int totalPage = Utils.CalculateNumberOfPage(stockSattistic.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<Product> listStockSattistic = stockSattistic.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalRow = listStockSattistic.Count();
+
+            ViewBag.ProductList = listStockSattistic.ToArray();
             return View("../Statistic/Stock");
         }
         public IActionResult EditProduct(string ProductCode)

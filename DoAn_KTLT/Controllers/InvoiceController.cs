@@ -14,7 +14,7 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string searchText)
+        public IActionResult Index(string searchText, int? page)
         {
             List<Invoice> ReadListInvoice = IOFile.IOFile.ReadInvoice();
             if (searchText != null && searchText != "")
@@ -22,7 +22,18 @@ namespace DoAn_KTLT.Controllers
                 ReadListInvoice = ReadListInvoice.FindAll(p => Utils.StringLike(p.InvoiceCode, searchText) || Utils.StringLike(p.InvoiceCustomerName, searchText));
             }
 
-            ViewBag.InvoiceList = ReadListInvoice.ToArray();
+            int totalPage = Utils.CalculateNumberOfPage(ReadListInvoice.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<Invoice> listInvoice = ReadListInvoice.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalRow = ReadListInvoice.Count;
+            ViewBag.InvoiceList = listInvoice.ToArray();
+            ViewBag.searchText = searchText ?? "";
             return View();
         }
 

@@ -1,0 +1,109 @@
+﻿@using System.Web;
+@{
+    int totalPage = ViewBag.totalPage ?? 0;
+    int currentPage = ViewBag.currentPage ?? 0;
+    var controllerName = this.Context.Request.Path;
+    var currentQueryString = this.Context.Request.QueryString;
+
+    // Thêm, sữa query string Ref: https://trackjs.com/blog/query-string-parsing/
+    var newQueryString = HttpUtility.ParseQueryString(currentQueryString.ToString());
+
+    // lấy 3 page để render
+    int page1 = 0;
+    int page2 = 0;
+    int page3 = 0;
+
+    if (totalPage == 1)
+    {
+        page1 = 1;
+    }
+
+    if (totalPage == 2)
+    {
+        page1 = 1;
+        page2 = 2;
+    }
+
+    if (totalPage == 3)
+    {
+        page1 = 1;
+        page2 = 2;
+        page3 = 3;
+    }
+
+    if (totalPage > 3)
+    {
+        page2 = currentPage;
+        page1 = currentPage - 1;
+        page3 = currentPage + 1;
+
+        if (currentPage == 1)
+        {
+            page3 = currentPage + 2;
+            page2 = currentPage + 1;
+            page1 = currentPage;
+        }
+
+        if (currentPage == totalPage)
+        {
+            page3 = currentPage;
+            page2 = currentPage - 1;
+            page1 = currentPage - 2;
+        }
+    }
+
+    string page1Active = page1 == currentPage ? "active" : "";
+    string page2Active = page2 == currentPage ? "active" : "";
+    string page3Active = page3 == currentPage ? "active" : "";
+
+    string backDisabled = currentPage <= 1 ? "disabled" : "";
+    string toDisabled = currentPage == totalPage ? "disabled" : "";
+
+    if (currentPage > totalPage)
+    {
+        toDisabled = "disabled";
+    }
+
+    newQueryString["page"] = $"{currentPage - 1}";
+    string backPageUrl = $"{controllerName}?{newQueryString}";
+
+    newQueryString["page"] = $"{currentPage + 1}";
+    string toPageUrl = $"{controllerName}?{newQueryString}";
+
+    newQueryString["page"] = $"{page1}";
+    string page1Url = $"{controllerName}?{newQueryString}";
+
+    newQueryString["page"] = $"{page2}";
+    string page2Url = $"{controllerName}?{newQueryString}";
+
+    newQueryString["page"] = $"{page3}";
+    string page3Url = $"{controllerName}?{newQueryString}";
+}
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @backDisabled">
+            <a class="page-link" href="@backPageUrl">Trang trước</a>
+        </li>
+        @if (page1 > 0)
+        {
+            <li class="page-item @page1Active"><a class="page-link" href="@page1Url">@page1</a></li>
+        }
+
+        @if (page2 > 0)
+        {
+            <li class="page-item @page2Active">
+                <a class="page-link" href="@page2Url">@page2</a>
+            </li>
+        }
+        @if (page3 > 0)
+        {
+            <li class="page-item @page3Active">
+                <a class="page-link" href="@page3Url">@page3</a>
+            </li>
+        }
+        <li class="page-item @toDisabled">
+            <a class="page-link" href="@toPageUrl">Trang sau</a>
+        </li>
+    </ul>
+</nav>

@@ -6,12 +6,12 @@
 
 <form method="post" action="Invoice/SearchInvoice">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" id="searchText" name="searchText" placeholder="Tìm mã hóa đơn, số điện thoại KH ..." aria-label="Tìm mã hóa đơn, số điện thoại KH ..." aria-describedby="button-addon2">
+        <input type="text" class="form-control" value="@ViewBag.searchText" name="searchText" placeholder="Tìm mã hóa đơn, số điện thoại KH ..." aria-label="Tìm mã hóa đơn, số điện thoại KH ..." aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm</button>
     </div>
 </form>
 
-<h2>Tổng cộng: @ViewBag.InvoiceList.Length</h2>
+<h2>Tổng cộng: @ViewBag.totalRow</h2>
 
 <div class="mb-3">
     <form style="display: inline" action="/Invoice/CreateInvoice" method="get">
@@ -55,4 +55,6 @@
             </tr>
         }
     </table>
+
+    @Html.Partial("../Shared/Panigation.cshtml")
 </div>

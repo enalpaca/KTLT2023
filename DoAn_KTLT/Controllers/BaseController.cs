@@ -5,6 +5,8 @@ namespace DoAn_KTLT.Controllers
     public class BaseController : Controller
     {
 
+        protected int PAGE_SIZE = 5;
+
         // 1-success, 2-warning, 3-danger, 4-info
         // https://mianliencoding.com/chi-tiet-bai-viet-tao-alert-trong-asp-net-mvc-su-dung-bootstrap-28
         protected void SetAlert(string message, int type)
