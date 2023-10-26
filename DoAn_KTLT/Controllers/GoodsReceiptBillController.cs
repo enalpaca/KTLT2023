@@ -6,7 +6,7 @@ using System.Net;
 
 namespace DoAn_KTLT.Controllers
 {
-    public class GoodsReceiptBillController : Controller
+    public class GoodsReceiptBillController : BaseController
     {
         private readonly ILogger<GoodsReceiptBillController> _logger;
 
@@ -15,7 +15,7 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string searchText)
+        public IActionResult Index(string searchText, int? page)
         {
             List<GoodsReceiptBill> ReadListGoodsReceiptBill = IOFile.IOFile.ReadGoodsReceiptBill();
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
@@ -29,11 +29,23 @@ namespace DoAn_KTLT.Controllers
             }
             if (searchText != null && searchText != "")
             {
-              
+
                 ReadListGoodsReceiptBill = ReadListGoodsReceiptBill.FindAll(p => Utils.StringLike(p.goodsReceiptBillCode, searchText) || Utils.StringLike(p.goodsReceiptBillProductName, searchText) || Utils.StringLike(p.goodsReceiptBillProductCompany, searchText));
             }
 
-            ViewBag.GoodsReceiptBillList = ReadListGoodsReceiptBill.ToArray();
+            int totalPage = Utils.CalculateNumberOfPage(ReadListGoodsReceiptBill.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<GoodsReceiptBill> listGoodsReceiptBill = ReadListGoodsReceiptBill.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalRow = ReadListGoodsReceiptBill.Count();
+            ViewBag.GoodsReceiptBillList = listGoodsReceiptBill.ToArray();
+            ViewBag.searchText = searchText ?? "";
+
             return View();
         }
 

@@ -1,16 +1,11 @@
 ﻿using DoAn_KTLT.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 
-
-
 namespace DoAn_KTLT.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;
 
@@ -19,7 +14,7 @@ namespace DoAn_KTLT.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string searchText, string confirmOnDelete, string deletedCategoryCode)
+        public IActionResult Index(string searchText, string confirmOnDelete, string deletedCategoryCode, int? page)
         {
             List<Category> ReadListCategory = IOFile.IOFile.ReadCategory();
             List<Product> ReadListProduct = IOFile.IOFile.ReadProduct();
@@ -28,12 +23,25 @@ namespace DoAn_KTLT.Controllers
             {
                 ReadListCategory = ReadListCategory.FindAll(p => p.CategoryCode.Contains(searchText) || p.CategoryName.Contains(searchText));
             }
-            ViewBag.CategoryList = ReadListCategory.ToArray();
-          
+
             if (confirmOnDelete == "true")
             {
                 ViewBag.ProductListOnDeletedCategory = ReadListProduct.FindAll(p => p.ProductCategory == deletedCategoryCode).ToArray();
             }
+
+            int totalPage = IOFile.Utils.CalculateNumberOfPage(ReadListCategory.Count, PAGE_SIZE);
+            int currentPage = page ?? 1;
+
+            //Paging => get data from currentPage - 1 * pageSize to (currentPage * pageSize) + pageSize
+            IEnumerable<Category> listCategory = ReadListCategory.Skip((currentPage - 1) * PAGE_SIZE)
+                .Take(PAGE_SIZE);
+
+            ViewBag.totalPage = totalPage;
+            ViewBag.currentPage = currentPage;
+            ViewBag.totalRow = ReadListCategory.Count();
+            ViewBag.CategoryList = listCategory.ToArray();
+            ViewBag.searchText = searchText ?? "";
+
             return View();
         }
 

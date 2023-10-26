@@ -15,7 +15,7 @@
       "applicationUrl": "http://localhost:5104",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_FOLDER": ""
+        "ASPNETCORE_FOLDER": "./data"
       }
     },
     "https": {
@@ -25,7 +25,7 @@
       "applicationUrl": "https://localhost:7238;http://localhost:5104",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_FOLDER": ""
+        "ASPNETCORE_FOLDER": "./data"
       }
     },
     "IIS Express": {
@@ -33,7 +33,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_FOLDER": ""
+        "ASPNETCORE_FOLDER": "./data"
       }
     }
   }
