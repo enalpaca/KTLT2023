@@ -47,7 +47,7 @@
                 <td>
 
                     <div class="btn-group m-1" role="group" aria-label="First group">
-                        <a href="/Product/EditProduct?ProductCode=@item.ProductCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                        <a href="/Product/EditProduct?ProductCode=@item.ProductCode" class="btn btn-warning">Sửa</a>
                     </div>
 
                     <div class="btn-group m-1" role="group" aria-label="Third group">
@@ -60,5 +60,5 @@
         }
     </table>
 
-    @Html.Partial("../Shared/Panigation.cshtml")
+    <partial name="../Shared/Panigation.cshtml" />
 </div>

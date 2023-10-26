@@ -47,14 +47,12 @@ namespace DoAn_KTLT.IOFile
 
         public static void Save<T>(string fileName, List<T> list)
         {
-            checkFilePaths();
             string json = JsonSerializer.Serialize(list, jsonSerializerOptions);
             File.WriteAllText(fileName, json);
         }
 
         public static List<T> Load<T>(string fileName)
         {
-            checkFilePaths();
             if (File.Exists(fileName))
             {
                 string json = File.ReadAllText(fileName);
@@ -70,37 +68,45 @@ namespace DoAn_KTLT.IOFile
 
         public static void SaveProducts(List<Product> products)
         {
+            checkFilePaths();
             Save(productFilePath, products);
         }
         public static List<Product> ReadProduct()
         {
+            checkFilePaths();
             return Load<Product>(productFilePath);
         }
 
         public static void SaveCategories(List<Category> categories)
         {
+            checkFilePaths();
             Save(categoryFilePath, categories);
         }
         public static List<Category> ReadCategory()
         {
+            checkFilePaths();
             return Load<Category>(categoryFilePath);
         }
 
         public static void SaveInvoices(List<Invoice> invoices)
         {
+            checkFilePaths();
             Save(invoiceFilePath, invoices);
         }
         public static List<Invoice> ReadInvoice()
         {
+            checkFilePaths();
             return Load<Invoice>(invoiceFilePath);
         }
 
         public static void SaveGoodsReceiptBills(List<GoodsReceiptBill> goodsReceiptBills)
         {
+            checkFilePaths();
             Save(goodsReceiptBillFilePath, goodsReceiptBills);
         }
         public static List<GoodsReceiptBill> ReadGoodsReceiptBill()
         {
+            checkFilePaths();
             return Load<GoodsReceiptBill>(goodsReceiptBillFilePath);
         }
     }

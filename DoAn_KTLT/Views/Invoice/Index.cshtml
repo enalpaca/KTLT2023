@@ -39,11 +39,11 @@
                 <td>@item.InvoiceCreateDate</td>
                 <td>
                     <div class="btn-group m-1" role="group" aria-label="First group">
-                        <a href="Invoice/Details/@item.InvoiceCode"><button type="button" class="btn btn-info">Chi tiết</button></a>
+                        <a href="Invoice/Details/@item.InvoiceCode" class="btn btn-info">Chi tiết</a>
                     </div>
 
                     <div class="btn-group m-1" role="group" aria-label="First group">
-                        <a href="/Invoice/Edit/@item.InvoiceCode"><button type="button" class="btn btn-warning">Sửa</button></a>
+                        <a href="/Invoice/Edit/@item.InvoiceCode" class="btn btn-warning">Sửa</a>
                     </div>
 
                     <div class="btn-group m-1" role="group" aria-label="Third group">
@@ -56,5 +56,5 @@
         }
     </table>
 
-    @Html.Partial("../Shared/Panigation.cshtml")
+    <partial name="../Shared/Panigation.cshtml" />
 </div>
