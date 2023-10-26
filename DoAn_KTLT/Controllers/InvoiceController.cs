@@ -37,7 +37,6 @@ namespace DoAn_KTLT.Controllers
             return View();
         }
 
-        // https://www.telerik.com/blogs/how-to-pass-multiple-parameters-get-method-aspnet-core-mvc
         [HttpGet("Invoice/Details/{InvoiceCode}")]
         public ActionResult Details(string InvoiceCode)
         {
@@ -182,6 +181,7 @@ namespace DoAn_KTLT.Controllers
                 ReadListProduct[currentProductIndex].ProductQuantity -= newInvoiceProduct.InvoiceProductQuantity;
 
                 IOFile.IOFile.SaveInvoices(ReadListInvoice);
+                IOFile.IOFile.SaveProducts(ReadListProduct);
 
                 SetAlert("Cập nhật thành công", 0);
                 return Redirect("/Invoice/Edit/" + InvoiceCode);
